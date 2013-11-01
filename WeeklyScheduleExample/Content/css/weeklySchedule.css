@@ -1,0 +1,110 @@
+﻿/* -------------------- Schedule Table -------------------- */
+div#scheduleTable
+{
+    border:none;
+    display:inline-block;
+    font:13px/19px 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif
+}
+div#scheduleTable div
+{
+    box-sizing:border-box;
+    -moz-box-sizing:border-box; /* Firefox */
+    -webkit-box-sizing:border-box; /* Safari */
+}
+div#scheduleTable > div { display:table }
+div#scheduleTable > div.schedule-content {border-top-style:hidden}/* to avoid double borders */
+div#scheduleTable > div.schedule-content > div { border-top:1px solid;border-top-color:transparent }/* to avoid content jumping: border exists but not visible */
+div#scheduleTable > div.schedule-content:hover > div { border-top:1px solid;border-top-color:inherit }/* to support highlighting */
+div#scheduleTable > div > div
+{
+    display:table-cell;
+    vertical-align:middle
+}
+div#scheduleTable > div > div:first-child { width:120px }
+div#scheduleTable > div > div:nth-child(2)
+{
+    width:300px;
+    border-left: 1px solid;
+	border-left-color: inherit;
+}
+div#scheduleTable > div > div:last-child
+{ 
+    width:200px;
+    border-left: 1px solid;
+	border-left-color: inherit
+}
+
+/* -------------------- Schedule Table Header -------------------- */
+div.schedule-header {height:22px}
+div.schedule-header > div {text-align:center}
+
+/* -------------------- Schedule Table Body -------------------- */
+div.schedule-content {height:30px}
+div.schedule-content > div:first-child
+{
+    padding-left: 10px;
+	font-weight: bold;
+	color: #696969
+}
+div.schedule-content > div:nth-child(2)
+{   
+    color: Black;
+    font-weight: normal
+}
+div.schedule-content > div:last-child
+{
+    margin-left: 5px;
+	margin-right: 5px;
+	color: Black;
+	font-weight: normal;
+	max-height: 20px
+}
+
+/* -------------------- Working Type -------------------- */
+div.schedule-workingType {margin-left:3px;}
+div.schedule-workingType > div {display:inline-block;vertical-align:middle;}
+div.schedule-workingType:first-of-type > div.workingTypeImg { margin-top:3px;}
+div.schedule-workingType:last-of-type > div.workingTypeImg { margin-top:2px;}
+div.workingTypeImg
+{
+	cursor: pointer;
+	width: 22px;
+    min-height: 22px;
+	max-height: 22px;
+	text-align: center;
+    padding-top:2px
+}
+div.workingTypeControl
+{
+	white-space: nowrap
+}
+
+/* -------------------- Breaks -------------------- */
+div.break
+{
+	color: Black;
+	font-weight: normal;
+	padding-left: 5px;
+	padding-right: 3px;
+	white-space: nowrap
+}
+img.deleteBreak
+{
+	cursor: pointer;
+	padding-right: 5px
+}
+div.breaksContainer
+{
+	cursor: pointer;
+	min-height: 20px;
+	line-height: 20px;
+	white-space: nowrap;
+    margin-left:5px;
+    margin-right:5px;
+	border: 1px solid transparent
+}
+div.breaksDialog
+{
+	display: none;
+	margin-left: 5px
+}

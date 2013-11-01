@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<week xmlns="urn:supperslonic:weeklySchedule">
+  <monday>
+    <work_hours open="07:00:00" close="16:00:00" />
+    <break from="12:00:00" to="13:00:00"/>
+    <break from="14:00:00" to="15:00:00"/>
+  </monday>
+  <tuesday>
+    <round_the_clock />
+  </tuesday>
+  <wednesday>
+    <round_the_clock></round_the_clock>
+    <break from="10:00:00" to="11:00:00"/>
+    <break from="14:00:00" to="15:00:00"/>
+    <break from="20:00:00" to="20:30:00"/>
+  </wednesday>
+  <thursday>
+    <closed />
+  </thursday>
+  <friday>
+    <work_hours open="07:00:00" close="16:00:00" />
+  </friday>
+  <saturday>
+    <work_hours open="10:00:00" close="15:00:00"/>
+    <break from="12:00:00" to="13:00:00"/>
+  </saturday>
+  <sunday>
+    <closed />
+  </sunday>
+</week>
+
+

@@ -1,0 +1,33 @@
+﻿@using WeeklyScheduleExample
+@using WeeklyScheduleExample.Models
+@using WeeklyScheduleExample.App_GlobalResources
+
+@model DayOfTheWeek
+	   
+@{
+	IHtmlString workHoursId = Html.GetWorkHoursId();
+	IHtmlString roundTheClockId = Html.GetRoundTheClockId();
+	IHtmlString closedId = Html.GetClosedId();
+	IHtmlString breaksContainerId = Html.GetBreaksId();
+}
+	   
+<div id="@workHoursId" style="@Html.IsWorkHoursVisible()" class="schedule-workingType" >
+	<div class="workingTypeImg" onclick="javascript:ChangeWorkingTypeManually('@workHoursId', '@roundTheClockId', '@breaksContainerId', true);">
+		<img src="@Url.Content("~/Content/img/workingHours.png")" title="@Resources.ChangeWorkingType" alt="@Resources.WorkHoursTitle" />
+	</div>
+	<div class="workingTypeControl">@Html.GetWorkHours()</div>
+</div>
+
+<div id="@roundTheClockId" style="@Html.IsRoundTheClockVisible()" class="schedule-workingType">
+	<div class="workingTypeImg" onclick="javascript:ChangeWorkingTypeManually('@roundTheClockId', '@closedId', '@breaksContainerId', false);">
+		<img src="@Url.Content("~/Content/img/roundTheClock.png")" title="@Resources.ChangeWorkingType" alt="@Resources.RoundTheClockTitle" />
+	</div>
+	<div class="workingTypeControl">@Html.Raw(Resources.RoundTheClockTitle)</div>
+</div>
+
+<div id="@closedId" style="@Html.IsClosedVisible();" class="schedule-workingType">
+    <div class="workingTypeImg" onclick="javascript:ChangeWorkingTypeManually('@closedId', '@workHoursId', '@breaksContainerId', true);">
+        <img src="@Url.Content("~/Content/img/dayOff.png")" title="@Resources.ChangeWorkingType" alt="@Resources.DayOffITitle" />
+    </div>
+    <div class="workingTypeControl">@Html.Raw(Resources.DayOffITitle)</div>
+</div>

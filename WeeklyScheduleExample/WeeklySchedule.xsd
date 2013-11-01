@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:t="urn:supperslonic:weeklySchedule" targetNamespace="urn:supperslonic:weeklySchedule" elementFormDefault="qualified" id="weeklySchedule">
+	<xsd:element name="week">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:restriction base="xsd:anyType">
+					<xsd:sequence>
+						<xsd:element name="monday" type="t:weekDay" />
+						<xsd:element name="tuesday" type="t:weekDay" />
+						<xsd:element name="wednesday" type="t:weekDay" />
+						<xsd:element name="thursday" type="t:weekDay" />
+						<xsd:element name="friday" type="t:weekDay" />
+						<xsd:element name="saturday" type="t:weekDay" />
+						<xsd:element name="sunday" type="t:weekDay" />
+					</xsd:sequence>
+				</xsd:restriction>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="weekDay">
+		<xsd:complexContent>
+			<xsd:restriction base="xsd:anyType">
+				<xsd:choice minOccurs="1">
+					<xsd:sequence>
+						<xsd:choice minOccurs="1">
+							<xsd:element name="round_the_clock" type="xsd:anyType" />
+							<xsd:element name="work_hours" minOccurs="1">
+								<xsd:complexType>
+									<xsd:complexContent>
+										<xsd:restriction base="xsd:anyType">
+											<xsd:attribute name="open" type="xsd:time" use="required" />
+											<xsd:attribute name="close" type="xsd:time" use="required" />
+										</xsd:restriction>
+									</xsd:complexContent>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:choice>
+						<xsd:element name="break" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:complexContent>
+									<xsd:restriction base="xsd:anyType">
+										<xsd:sequence />
+										<xsd:attribute name="from" type="xsd:time" use="required" />
+										<xsd:attribute name="to" type="xsd:time" use="required" />
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+					<xsd:element name="closed" type="xsd:anyType" />
+				</xsd:choice>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+</xsd:schema>

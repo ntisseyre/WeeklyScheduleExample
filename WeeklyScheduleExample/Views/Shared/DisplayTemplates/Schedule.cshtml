@@ -1,0 +1,71 @@
+﻿@using WeeklyScheduleExample
+@using WeeklyScheduleExample.Models
+@using WeeklyScheduleExample.App_GlobalResources
+
+@model WeekModel
+
+<script type="text/javascript">
+    //Some constant values to be used in javascript
+	var ConstsForSchedule =
+	{
+		IdSeparator: "@WeeklyScheduleHtmlHelper.IdSeparator",
+		E_EmptyTime: "@Resources.E_EmptyTime",
+		E_IntervalIsNotValid: "@Resources.E_IntervalIsNotValid"
+	};
+</script>
+<div id="scheduleTable" class="ui-widget-content">
+    <div class="ui-state-default schedule-header">
+        <div>@Resources.DayOfWeekTitle</div>
+        <div>@Resources.WorkingTimeTitle</div>
+        <div>@Resources.BreaksTitle</div>
+    </div>
+	<div class="ui-widget-content schedule-content">
+		<div>@Resources.Monday</div>
+		<div>@Html.DisplayFor(m => m.Monday, "WorkingType")</div>
+		<div>@Html.DisplayFor(m => m.Monday, "Breaks")</div>
+	</div>
+	<div class="ui-widget-content schedule-content">
+		<div>@Resources.Tuesday</div>
+		<div>@Html.DisplayFor(m => m.Tuesday, "WorkingType")</div>
+		<div>@Html.DisplayFor(m => m.Tuesday, "Breaks")</div>
+	</div>
+	<div class="ui-widget-content schedule-content">
+		<div>@Resources.Wednesday</div>
+		<div>@Html.DisplayFor(m => m.Wednesday, "WorkingType")</div>
+		<div class="breaks">@Html.DisplayFor(m => m.Wednesday, "Breaks")</div>
+	</div>
+	<div class="ui-widget-content schedule-content">
+		<div>@Resources.Thursday</div>
+		<div>@Html.DisplayFor(m => m.Thursday, "WorkingType")</div>
+		<div>@Html.DisplayFor(m => m.Thursday, "Breaks")</div>
+	</div>
+	<div class="ui-widget-content schedule-content">
+		<div>@Resources.Friday</div>
+		<div>@Html.DisplayFor(m => m.Friday, "WorkingType")</div>
+		<div>@Html.DisplayFor(m => m.Friday, "Breaks")</div>
+	</div>
+	<div class="ui-widget-content schedule-content">
+		<div>@Resources.Saturday</div>
+		<div>@Html.DisplayFor(m => m.Saturday, "WorkingType")</div>
+		<div>@Html.DisplayFor(m => m.Saturday, "Breaks")</div>
+	</div>
+	<div class="ui-widget-content schedule-content">
+		<div>@Resources.Sunday</div>
+		<div>@Html.DisplayFor(m => m.Sunday, "WorkingType")</div>
+		<div>@Html.DisplayFor(m => m.Sunday, "Breaks")</div>
+	</div>
+</div>
+
+<div id="TimeMenu" class="ui-timepickr ui-widget">
+	<div class="prefixRow" onmouseout="javascript:LeaveTimePicker();">
+		<span class="prefix ui-state-hover ui-corner-all" onmouseover="javascript:HoverTopLevel($(this));" onclick="javascript:SetTimeForPrefix(1);">00-11</span><span class="prefix ui-state-hover ui-corner-all" onmouseover="javascript:HoverTopLevel($(this));" onclick="javascript:SetTimeForPrefix(2);">12-23</span>
+	</div>
+	<div onmouseout="javascript:LeaveTimePicker();">
+		@for (int hour = 0; hour < 24; hour++)
+		{<span class="hour ui-state-hover ui-corner-all" onmouseover="javascript:HoverTopLevel($(this));" onclick="javascript:SetTime();">@hour.ToString("D2")</span>}
+	</div>
+	<div onmouseout="javascript:LeaveTimePicker();">
+		@for (int minute = 0; minute < 60; minute+=10)
+		{<span class="minute ui-state-hover ui-corner-all" onmouseover="javascript:HoverElement($(this));" onclick="javascript:SetTime();" >@minute.ToString("D2")</span>}
+	</div>
+</div>

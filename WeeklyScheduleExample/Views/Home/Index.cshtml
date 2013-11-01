@@ -1,0 +1,17 @@
+﻿@model WeeklyScheduleExample.Models.WeekModel
+
+<html>
+    <head>
+        <title>Weekly Schedule Example</title>
+        <link href="@Url.Content("~/Content/css/weeklySchedule.css")" rel="stylesheet" type="text/css" />
+        <link href="http://code.jquery.com/ui/1.10.3/themes/redmond/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="@Url.Content("~/Content/js/schedule.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Content/js/timePicker.js")"></script>
+    </head>
+    <body>
+        <div style="margin-top:20px"><input type="button" value="Disable" onclick="javascript:disableSchedule();" /></div>
+        <div style="margin-top:20px">@Html.DisplayForModel("Schedule")</div>
+    </body>
+</html>
