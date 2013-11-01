@@ -42,6 +42,8 @@ div.schedule-header > div {text-align:center}
 div.schedule-content {height:30px}
 div.schedule-content > div:first-child
 {
+    display:inline-block!important; /* box-sizing doesn't work in FireFox for table-cell*/
+    padding-top:5px;
     padding-left: 10px;
 	font-weight: bold;
 	color: #696969
