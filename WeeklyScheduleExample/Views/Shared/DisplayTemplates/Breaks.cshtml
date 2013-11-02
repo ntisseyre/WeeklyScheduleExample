@@ -13,8 +13,8 @@
 <div id="@breaksDialogId" class="breaksDialog">
 	@foreach (BreakControlInfo breakHours in Html.GetBreaks())
 	{
-		<div class="break">
-			<div class="break">@breakHours.BreakControl</div>
+		<div class="breakRow">
+			<div class="breakCell">@breakHours.BreakControl</div>
 			<div><img class="deleteBreak"
 					src="@Url.Content("~/Content/img/delete.png")"
 					title="@Resources.DeleteTitle"

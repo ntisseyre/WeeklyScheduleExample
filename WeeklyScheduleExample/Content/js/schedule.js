@@ -23,7 +23,7 @@
 		SetBreaksContainerText(breaksContainer, dialogForBreaks);
 
 		//Накатываем стили по фокусу на все строки таблицы Перерывов
-		dialogForBreaks.find("tr.break").hover(
+		dialogForBreaks.find("div.breakRow").hover(
 			function () { $(this).addClass('ui-state-hover'); },
 			function () { $(this).removeClass('ui-state-hover'); });
 	});

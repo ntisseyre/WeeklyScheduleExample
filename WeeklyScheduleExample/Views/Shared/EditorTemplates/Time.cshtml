@@ -1,4 +1,4 @@
 ﻿@model System.TimeSpan
 
 <script type="text/javascript"></script>
-<span>@(Model == null ? "" : Model.ToString())</span>
+<input class="time" type="text" value="@(Model == null ? "" : Model.Hours.ToString("D2") + ":" + Model.Minutes.ToString("D2"))" />

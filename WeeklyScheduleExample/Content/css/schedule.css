@@ -1,5 +1,4 @@
-﻿#timeMenu {display:none}
-/* -------------------- Schedule Table -------------------- */
+﻿/* -------------------- Schedule Table -------------------- */
 div#scheduleTable
 {
     border:none;
@@ -22,13 +21,13 @@ div#scheduleTable > div > div
 div#scheduleTable > div > div:first-child { width:120px }
 div#scheduleTable > div > div:nth-child(2)
 {
-    width:220px;
+    width:210px;
     border-left: 1px solid;
 	border-left-color: inherit;
     border-right: 1px solid;
 	border-right-color: inherit
 }
-div#scheduleTable > div > div:last-child{ width:200px;}
+div#scheduleTable > div > div:last-child{ width:210px;}
 
 /* -------------------- Schedule Table Header -------------------- */
 div.schedule-header {height:22px}
@@ -36,10 +35,11 @@ div.schedule-header > div {text-align:center}
 
 /* -------------------- Schedule Table Body -------------------- */
 div.schedule-content {height:30px}
+
+/* box-sizing doesn't work in FireFox for table-cell*/
+@-moz-document url-prefix(){ div.schedule-content > div:first-child{width:110px!important;}}
 div.schedule-content > div:first-child
 {
-    display:inline-block!important; /* box-sizing doesn't work in FireFox for table-cell*/
-    padding-top:5px;
     padding-left: 10px;
 	font-weight: bold;
 	color: #696969
@@ -78,7 +78,9 @@ div.workingTypeControl
 }
 
 /* -------------------- Breaks -------------------- */
-div.break
+div.breakRow {display:table;border:1px solid transparent}
+div.breakRow > div {display:table-cell}
+div.breakCell
 {
 	color: Black;
 	font-weight: normal;
