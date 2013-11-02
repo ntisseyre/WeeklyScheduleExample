@@ -237,14 +237,14 @@ namespace WeeklyScheduleExample
 		}
 
 		/// <summary>
-		/// Получить Html-представление временного интервала
+		/// Get an Html to display time interval
 		/// </summary>
 		/// <param name="html">Represents support for rendering HTML controls in a strongly typed view</param>
-		/// <param name="from">Время "с"</param>
-		/// <param name="fromName">Идентификатор контрола для отображения время "с"</param>
-		/// <param name="to">Время "по"</param>
-		/// <param name="toName">Идентификатор контрола для отображения время "по"</param>
-		/// <returns>Html-представление временного интервала</returns>
+		/// <param name="from">Time "from"</param>
+		/// <param name="fromName">Id of an Html element to display time "from"</param>
+		/// <param name="to">Time "to"</param>
+        /// <param name="toName">Id of an Html element to display time "to"</param>
+		/// <returns>Html-representation of a time interval control</returns>
 		private static IHtmlString GetTimeInterval(HtmlHelper<DayOfTheWeek> html, TimeSpan from, string fromName, TimeSpan to, string toName)
 		{
             return html.Raw(string.Format(WeekModel.cultureInfo,
@@ -254,11 +254,11 @@ namespace WeeklyScheduleExample
 		}
 
 		/// <summary>
-		/// Получить отформатированное имя для контрола
+		/// Get a formatted name for an Html element
 		/// </summary>
 		/// <param name="template">Template</param>
-		/// <param name="index">Порядковый номер контрола</param>
-		/// <returns>Отформатированное имя для контрола</returns>
+		/// <param name="index">Index of an Html-element</param>
+		/// <returns>Formatted name of an Html element</returns>
 		private static string GetFormattedName(string template, int index)
 		{
             return string.Format(WeekModel.cultureInfo, template, index);
