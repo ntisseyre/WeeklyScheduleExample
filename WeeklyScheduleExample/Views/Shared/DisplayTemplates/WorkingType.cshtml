@@ -12,22 +12,16 @@
 }
 	   
 <div id="@workHoursId" style="@Html.IsWorkHoursVisible()" class="schedule-workingType" >
-	<div class="workingTypeImg" onclick="javascript:ChangeWorkingTypeManually('@workHoursId', '@roundTheClockId', '@breaksContainerId', true);">
-		<img src="@Url.Content("~/Content/img/workingHours.png")" title="@Resources.ChangeWorkingType" alt="@Resources.WorkHoursTitle" />
-	</div>
-	<div class="workingTypeControl">@Html.GetWorkHours()</div>
+	<div class="workingTypeImg" onclick="javascript:ChangeWorkingTypeManually('@workHoursId', '@roundTheClockId', '@breaksContainerId', true);">&nbsp;</div>
+	<div>@Html.GetWorkHours()</div>
 </div>
 
 <div id="@roundTheClockId" style="@Html.IsRoundTheClockVisible()" class="schedule-workingType">
-	<div class="workingTypeImg" onclick="javascript:ChangeWorkingTypeManually('@roundTheClockId', '@closedId', '@breaksContainerId', false);">
-		<img src="@Url.Content("~/Content/img/roundTheClock.png")" title="@Resources.ChangeWorkingType" alt="@Resources.RoundTheClockTitle" />
-	</div>
-	<div class="workingTypeControl">@Html.Raw(Resources.RoundTheClockTitle)</div>
+	<div class="workingTypeImg" onclick="javascript:ChangeWorkingTypeManually('@roundTheClockId', '@closedId', '@breaksContainerId', false);">&nbsp;</div>
+	<div>@Html.Raw(Resources.RoundTheClockTitle)</div>
 </div>
 
 <div id="@closedId" style="@Html.IsClosedVisible();" class="schedule-workingType">
-    <div class="workingTypeImg" onclick="javascript:ChangeWorkingTypeManually('@closedId', '@workHoursId', '@breaksContainerId', true);">
-        <img src="@Url.Content("~/Content/img/dayOff.png")" title="@Resources.ChangeWorkingType" alt="@Resources.DayOffITitle" />
-    </div>
-    <div class="workingTypeControl">@Html.Raw(Resources.DayOffITitle)</div>
+    <div class="workingTypeImg" onclick="javascript:ChangeWorkingTypeManually('@closedId', '@workHoursId', '@breaksContainerId', true);">&nbsp;</div>
+    <div>@Html.Raw(Resources.DayOffITitle)</div>
 </div>

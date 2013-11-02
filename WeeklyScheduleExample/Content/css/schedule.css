@@ -60,27 +60,23 @@ div.schedule-content > div:last-child
 
 /* -------------------- Working Type -------------------- */
 div.schedule-workingType {margin-left:3px;}
-div.schedule-workingType > div {display:inline-block;vertical-align:middle;}
-div.schedule-workingType:first-of-type > div.workingTypeImg { margin-top:3px;}
-div.schedule-workingType:last-of-type > div.workingTypeImg { margin-top:2px;}
-div.workingTypeImg
+div.schedule-workingType > div {display:inline-block;vertical-align:middle}
+div.schedule-workingType > div:last-of-type {white-space: nowrap;margin-left:0px}
+div.schedule-workingType > div.workingTypeImg
 {
 	cursor: pointer;
-	width: 22px;
-    min-height: 22px;
-	max-height: 22px;
-	text-align: center;
-    padding-top:2px
+    padding-top:2px;
+	width: 22px;min-height: 22px;max-height: 22px;
+    background-repeat:no-repeat;background-position: 2px 2px
 }
-div.workingTypeControl
-{
-	white-space: nowrap
-}
+div.schedule-workingType:first-of-type > div.workingTypeImg{background-image:url(../img/workingHours.png);margin-top:4px}
+div.schedule-workingType:nth-of-type(2) > div.workingTypeImg{background-image:url(../img/roundTheClock.png);margin-top:2px}
+div.schedule-workingType:last-of-type > div.workingTypeImg{background-image:url(../img/dayOff.png);margin-top:2px}
 
 /* -------------------- Breaks -------------------- */
 div.breakRow {display:table;border:1px solid transparent}
 div.breakRow > div {display:table-cell}
-div.breakCell
+div.breakRow > div:first-child
 {
 	color: Black;
 	font-weight: normal;
@@ -88,11 +84,14 @@ div.breakCell
 	padding-right: 3px;
 	white-space: nowrap
 }
-img.deleteBreak
+div.breakRow > div:last-child
 {
-	cursor: pointer;
-	padding-right: 5px
+    cursor: pointer;
+	padding-right: 5px;
+    background-image: url(../img/delete.png);
+    background-repeat:no-repeat;
 }
+div.breakRow > div:last-child:hover{background-image: url(../img/deleteActive.png)}
 div.breaksContainer
 {
 	cursor: pointer;

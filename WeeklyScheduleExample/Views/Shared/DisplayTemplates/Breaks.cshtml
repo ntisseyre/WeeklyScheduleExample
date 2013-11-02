@@ -14,15 +14,8 @@
 	@foreach (BreakControlInfo breakHours in Html.GetBreaks())
 	{
 		<div class="breakRow">
-			<div class="breakCell">@breakHours.BreakControl</div>
-			<div><img class="deleteBreak"
-					src="@Url.Content("~/Content/img/delete.png")"
-					title="@Resources.DeleteTitle"
-					alt="@Resources.DeleteTitle"
-					style="@breakHours.IsDeleteButtonVisible"
-					onclick="javascript:DeleteBreak($(this));"
-					onmouseover="javascript:this.src='@Url.Content("~/Content/img/deleteActive.png")';"
-					onmouseout="javascript:this.src='@Url.Content("~/Content/img/delete.png")';" /></div>
+			<div>@breakHours.BreakControl</div>
+			<div style="@breakHours.IsDeleteButtonVisible" onclick="javascript:DeleteBreak($(this));">&nbsp;</div>
 		</div>
 	}
 </div>

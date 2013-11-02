@@ -141,9 +141,6 @@
   <data name="BreaksTitleWednesday" xml:space="preserve">
     <value>Breaks for Wednesday</value>
   </data>
-  <data name="ChangeWorkingType" xml:space="preserve">
-    <value>Change working type</value>
-  </data>
   <data name="CultureInfo" xml:space="preserve">
     <value>en-US</value>
   </data>
@@ -152,9 +149,6 @@
   </data>
   <data name="DayOfWeekTitle" xml:space="preserve">
     <value>Day of a week</value>
-  </data>
-  <data name="DeleteTitle" xml:space="preserve">
-    <value>Delete</value>
   </data>
   <data name="E_BreakCanNotBeAddedForTypeWithParam" xml:space="preserve">
     <value>Break can't be added for the working type {0}</value>
@@ -200,9 +194,6 @@
   </data>
   <data name="Wednesday" xml:space="preserve">
     <value>Wednesday</value>
-  </data>
-  <data name="WorkHoursTitle" xml:space="preserve">
-    <value>Working hours</value>
   </data>
   <data name="WorkingTimeTitle" xml:space="preserve">
     <value>Working time</value>

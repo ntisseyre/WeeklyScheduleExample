@@ -133,15 +133,6 @@ namespace WeeklyScheduleExample.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change working type.
-        /// </summary>
-        public static string ChangeWorkingType {
-            get {
-                return ResourceManager.GetString("ChangeWorkingType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to en-US.
         /// </summary>
         public static string CultureInfo {
@@ -165,15 +156,6 @@ namespace WeeklyScheduleExample.App_GlobalResources {
         public static string DayOfWeekTitle {
             get {
                 return ResourceManager.GetString("DayOfWeekTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Delete.
-        /// </summary>
-        public static string DeleteTitle {
-            get {
-                return ResourceManager.GetString("DeleteTitle", resourceCulture);
             }
         }
         
@@ -309,15 +291,6 @@ namespace WeeklyScheduleExample.App_GlobalResources {
         public static string Wednesday {
             get {
                 return ResourceManager.GetString("Wednesday", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Working hours.
-        /// </summary>
-        public static string WorkHoursTitle {
-            get {
-                return ResourceManager.GetString("WorkHoursTitle", resourceCulture);
             }
         }
         
