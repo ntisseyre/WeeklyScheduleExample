@@ -22,10 +22,8 @@
 		var dialogForBreaks = GetBreaksDialogForContainer(breaksContainer);
 		SetBreaksContainerText(breaksContainer, dialogForBreaks);
 
-		//Накатываем стили по фокусу на все строки таблицы Перерывов
-		dialogForBreaks.find("div.breakRow").hover(
-			function () { $(this).addClass('ui-state-hover'); },
-			function () { $(this).removeClass('ui-state-hover'); });
+		//apply highlighting on all rows of a breaks' edit table
+		addBreakRowsHighlightning(dialogForBreaks);
 	});
 
 	$(document).bind("timePickerChanged", function (event, data) { OnTimePickerChanged(data.inputControl); });
@@ -153,10 +151,10 @@ function OnTimePickerChanged(inputControl)
 }
 
 /// <summary>
-/// Раскопировать часы работы понедельника на вторник-пятницу.
-/// Для пятницы заполняется только дата "с".
+/// Copy working hours from Monday to [Tuesday; Friday].
+/// For Friday only "from".
 /// </summary>
-/// <param name="changedControl">Контрол, который послужил trigger'ом для копирования часов работы</param>
+/// <param name="changedControl">Html-element which triggered a coping of working hours</param>
 /// <param name="cellForTimePicker">Td'шка, в которой живет данный контрол</param>
 function CopyWorkHoursFromMonday(changedControl, cellForTimePicker)
 {
@@ -174,14 +172,14 @@ function CopyWorkHoursFromMonday(changedControl, cellForTimePicker)
 	}
 
 	var workingTypeDivs = this.GetActiveWorkingTypes();
-	for (var c = 1; c < workingTypeDivs.length - 2; c++) //со вторника по пятницу
+	for (var c = 1; c < workingTypeDivs.length - 2; c++)//iterate from Tuesday to Friday
 	{
 		var workHours = $(workingTypeDivs[c]).find('input[type=text]');
 		if (workHours.length != 0)
 		{
 			if (isOpenTimeChanged)
 				$(workHours[0]).val(newTime);
-			else if (c != 4) //для пятницы не ставим close time
+			else if (c != 4) //for Friday ignore close time
 				$(workHours[1]).val(newTime);
 		}
 	}
@@ -190,11 +188,11 @@ function CopyWorkHoursFromMonday(changedControl, cellForTimePicker)
 //===================================================================== Breaks' Dialog functions =====================================================================//
 
 /// <summary>
-/// Показать контрол для редактирования перерывов
+/// Show a dialog to edit breaks' list
 /// </summary>
-/// <param name="breaksContainer">Объект, содержащий перерывы в виде строки</param>
-/// <param name="breaksDialogId">Идентификатор контрола для редактирования перерывов</param>
-/// <param name="breaksTitle">Название диалогового окна</param>
+/// <param name="breaksContainer">Html-element which contains a text-representation of breaks</param>
+/// <param name="breaksDialogId">Breaks' list dialog Id</param>
+/// <param name="breaksTitle">Breaks' list dialog title</param>
 function ShowBreaks(breaksContainer, breaksDialogId, breaksTitle)
 {
     var breaksDialog = $('#' + breaksDialogId);
@@ -225,10 +223,11 @@ function ShowBreaks(breaksContainer, breaksDialogId, breaksTitle)
 				}
 
 			},
-			Отменить: function ()
+			Cancel: function ()
 			{
 				breaksDialog.dialog("close");
 				breaksDialog.html(previousHtml);
+				addBreakRowsHighlightning(breaksDialog);//bind again
 
 				var c = 0;
 				breaksDialog.find('input[type=text]').each(function ()
@@ -278,18 +277,18 @@ function SetBreaksContainerText(breaksContainer, breaksDialog)
 }
 
 /// <summary>
-/// Раскопировать перерывы с понедельника на вторник-пятницу
+/// Copy breaks from Monday to [Tuesday; Friday].
 /// </summary>
-/// <param name="breaksContainer">Объект, содержащий перерывы в виде строки</param>
+/// <param name="breaksContainer">Html-element which contains text-representation of breaks' list</param>
 function CopyBreaksFromMonday()
 {
 	var breaksContainersIds = this.GetBreaksContainers();
 	var mondayBreaks = this.GetBreaksForContainer($(breaksContainersIds[0]));
 
-	for (var c = 1; c < breaksContainersIds.length - 2; c++) //со вторника по пятницу
+	for (var c = 1; c < breaksContainersIds.length - 2; c++)//iterate from Tuesday to Friday
 	{
 		var breaksContainer = $(breaksContainersIds[c]);
-		var dayBreaks = this.GetBreaksForContainer(breaksContainer); //Перерывы дня недели
+		var dayBreaks = this.GetBreaksForContainer(breaksContainer); //Breaks for a day of a week
 		if (dayBreaks == null)
 			continue;
 
@@ -303,20 +302,20 @@ function CopyBreaksFromMonday()
 				dayBreaks[i + 1].value = mondayBreaks[i + 1].value;
 
 				if (dayBreaks.length - 2 == i)
-					lastRow = $(dayBreaks[i]).parent().parent(); //Tr'ка для последнего перерыва
+				    lastRow = $(dayBreaks[i]).parent().parent(); //<div class="breakRow"> for a last break in a list
 			}
 			else
 			{
-				//Недостающие перерывы добавляем
+				//Add missing breaks
 				lastRow = this.CloneBreakRow(lastRow, mondayBreaks[i].value, mondayBreaks[i + 1].value);
 			}
 		}
 
 		if (lastRow == null)
 		{
-			$(dayBreaks[mondayBreaks.length - 1]).parent().parent().find('img').hide();
+			$(dayBreaks[mondayBreaks.length - 1]).parent().parent().find('a').hide();
 
-			for (; i < dayBreaks.length; i += 2) //Лишнии перерывы удаляем
+			for (; i < dayBreaks.length; i += 2) //Delete extra breaks
 			{
 				$(dayBreaks[i]).parent().parent().remove();
 			}
@@ -340,22 +339,22 @@ function AddNewBreak(cellForBreak)
 }
 
 /// <summary>
-/// Склонировать строчку с перерывами
+/// Clone a row with breaks
 /// </summary>
-/// <param name="lastRow">Объект строки</param>
-/// <param name="fromValue">Время "с"</param>
-/// <param name="toValue">Время "по"</param>
+/// <param name="lastRow">A row to copy from</param>
+/// <param name="fromValue">Time "from"</param>
+/// <param name="toValue">Time "to"</param>
 function CloneBreakRow(lastRow, fromValue, toValue)
 {
 	var c = 0;
 	var nextIndex = (lastRow.index() + 1).toString();
 	var clone = lastRow.clone()
 		.hover(function () { $(this).addClass('ui-state-hover'); }, function () { $(this).removeClass('ui-state-hover'); })
-		.find('input[type=text]') //найти все контролы для ввода времени
+		.find('input[type=text]') //find all Html-elements to enter time
 		.each(function ()
 		{
 			var breakInput = $(this);
-			breakInput.attr('id', this.id.replace(/\d+$/, nextIndex)); //накрутить id-шник
+			breakInput.attr('id', this.id.replace(/\d+$/, nextIndex)); //increment index used for an id
 
 			if (c++ == 0)
 			{
@@ -366,27 +365,38 @@ function CloneBreakRow(lastRow, fromValue, toValue)
 				breakInput.val(toValue);
 			}
 
-			InitTimePicker(breakInput); //Инитим timePicker'ы
+			InitTimePicker(breakInput); //init timePicker control
 		})
-		.end() //вернуться к клону
+		.end() //return to a clone
 		.insertAfter(lastRow);
 
-	lastRow.find('img').show(); // теперь текущий tr стал предпоследним, показываем возможность для удаления
+	lastRow.find('a').show(); // now current row is before a last one -> enable delete functionality
 	return clone;
 }
 
 /// <summary>
-/// Удалить перерыв
+/// Delete a break from breaks' table
 /// </summary>
-/// <param name="imgForDelete">Объект картинки, на которую жмякнули, чтобы удалить запись</param>
+/// <param name="imgForDelete">Html-element "a" which was clicked</param>
 function DeleteBreak(imgForDelete)
 {
-	var rowForBreak = imgForDelete.parent().parent() //tr
+    var rowForBreak = imgForDelete.parent();
 
-	if (rowForBreak.index() == rowForBreak.siblings().length)//Если контрол последний, то ничего не делаем
+	if (rowForBreak.index() == rowForBreak.siblings().length)//If control is a last one, just skip
 		return;
 
 	rowForBreak.remove();
+}
+
+/// <summary>
+/// Apply highlighting on all rows of a breaks' edit table
+/// </summary>
+/// <param name="dialogForBreaks">Dialog-div element which contains breaks' list</param>
+function addBreakRowsHighlightning(dialogForBreaks)
+{
+    dialogForBreaks.find("div.breakRow").hover(
+			function () { $(this).addClass('ui-state-hover'); },
+			function () { $(this).removeClass('ui-state-hover'); });
 }
 
 //===================================================================== Save functions =====================================================================//

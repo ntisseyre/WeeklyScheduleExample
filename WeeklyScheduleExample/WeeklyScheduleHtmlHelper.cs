@@ -30,7 +30,7 @@ namespace WeeklyScheduleExample
 		/// <summary>
 		/// Template to show the time interval
 		/// </summary>
-		private const string TimeIntervalTemplate = "c:{0}&nbsp;по:{1}";
+		private const string TimeIntervalTemplate = "{0}:{1}&nbsp;{2}:{3}";
 
 		#endregion
 
@@ -249,7 +249,9 @@ namespace WeeklyScheduleExample
 		{
             return html.Raw(string.Format(WeekModel.cultureInfo,
                                WeeklyScheduleHtmlHelper.TimeIntervalTemplate,
+                               Resources.FromTitle,
 							   html.EditorFor(m => from, "Time", fromName),
+                               Resources.ToTitle,
 							   html.EditorFor(m => to, "Time", toName)));
 		}
 

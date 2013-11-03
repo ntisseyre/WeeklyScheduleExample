@@ -232,6 +232,15 @@ namespace WeeklyScheduleExample.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to from.
+        /// </summary>
+        public static string FromTitle {
+            get {
+                return ResourceManager.GetString("FromTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monday.
         /// </summary>
         public static string Monday {
@@ -273,6 +282,15 @@ namespace WeeklyScheduleExample.App_GlobalResources {
         public static string Thursday {
             get {
                 return ResourceManager.GetString("Thursday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to to.
+        /// </summary>
+        public static string ToTitle {
+            get {
+                return ResourceManager.GetString("ToTitle", resourceCulture);
             }
         }
         

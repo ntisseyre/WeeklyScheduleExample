@@ -198,4 +198,10 @@
   <data name="WorkingTimeTitle" xml:space="preserve">
     <value>Working time</value>
   </data>
+  <data name="FromTitle" xml:space="preserve">
+    <value>from</value>
+  </data>
+  <data name="ToTitle" xml:space="preserve">
+    <value>to</value>
+  </data>
 </root>

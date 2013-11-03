@@ -125,6 +125,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Content\css\main.css" />
     <Content Include="Content\css\timePicker.css" />
     <Content Include="Content\css\schedule.css" />
     <Content Include="Content\img\dayOff.png" />

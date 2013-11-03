@@ -3,6 +3,7 @@
 <html>
     <head>
         <title>Weekly Schedule Example</title>
+        <link href="@Url.Content("~/Content/css/main.css")" rel="stylesheet" type="text/css" />
         <link href="@Url.Content("~/Content/css/schedule.css")" rel="stylesheet" type="text/css" />
         <link href="@Url.Content("~/Content/css/timePicker.css")" rel="stylesheet" type="text/css" />
         <link href="http://code.jquery.com/ui/1.10.3/themes/redmond/jquery-ui.min.css" rel="stylesheet" type="text/css" />
@@ -12,7 +13,7 @@
         <script type="text/javascript" src="@Url.Content("~/Content/js/timePicker.js")"></script>
     </head>
     <body>
-        <div style="margin-top:20px"><input type="button" value="Disable" onclick="javascript:disableSchedule();" /></div>
-        <div style="margin-top:20px">@Html.DisplayForModel("Schedule")</div>
+        <div class="main"><input type="button" value="Disable" onclick="javascript:disableSchedule();" /></div>
+        <div class="main">@Html.DisplayForModel("Schedule")</div>
     </body>
 </html>

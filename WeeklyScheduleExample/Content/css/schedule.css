@@ -3,7 +3,6 @@ div#scheduleTable
 {
     border:none;
     display:inline-block;
-    font:13px/19px 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif
 }
 div#scheduleTable div
 {
@@ -75,23 +74,25 @@ div.schedule-workingType:last-of-type > div.workingTypeImg{background-image:url(
 
 /* -------------------- Breaks -------------------- */
 div.breakRow {display:table;border:1px solid transparent}
-div.breakRow > div {display:table-cell}
-div.breakRow > div:first-child
+div.breakRow > div
 {
 	color: Black;
-	font-weight: normal;
-	padding-left: 5px;
-	padding-right: 3px;
-	white-space: nowrap
+    display:table-cell;
+    vertical-align:middle;
+	padding-right: 5px;
+	font-weight: normal;white-space: nowrap
 }
-div.breakRow > div:last-child
+div.breakRow > a
 {
     cursor: pointer;
-	padding-right: 5px;
+    text-decoration:none;
+	margin-top:3px;
+    width:16px;height:16px;
     background-image: url(../img/delete.png);
     background-repeat:no-repeat;
 }
-div.breakRow > div:last-child:hover{background-image: url(../img/deleteActive.png)}
+div.breakRow > a:hover{background-image: url(../img/deleteActive.png)}
+
 div.breaksContainer
 {
 	cursor: pointer;
