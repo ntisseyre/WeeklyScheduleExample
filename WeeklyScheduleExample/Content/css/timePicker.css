@@ -1,2 +1,7 @@
-﻿#timeMenu {display:none}
+﻿.ui-timepickr { position: absolute; z-index: 3000 }
+.ui-timepickr div { margin-top: 1px; display: none }
+.ui-timepickr span { display: inline-block; font-size: .7em; margin-right: 1px; padding: 4px 6px 4px 6px; cursor: pointer } 
+.ui-timepickr div span.hour, 
+.ui-timepickr div span.minute { width: 13px; }
+
 input.time {width:40px}

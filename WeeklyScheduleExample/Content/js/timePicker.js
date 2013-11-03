@@ -17,35 +17,35 @@ $(document).ready(function ()
 /// Init Html element: attach timePicker behaviour
 /// </summary>
 /// <param name="control">Html element</param>
-function InitTimePicker(control)
+function initTimePicker(control)
 {
 	if (control.data('isInited'))
 		return;
 
 	control.data('isInited', true);
 	control.data('initialValue', control.val());
-	control.bind("click", function () { ShowTimePicker(control); });
-	control.bind("change paste", null, function () { currentInputControl = control; ValidateTimePicker(); });
-	control.bind("keydown", function (e) { if (e.keyCode == 27) { HideTimePicker(); ValidateTimePicker(); } }); //if Esc - hide control
-	control.bind("blur", function () { if (!isInsideTimePicker) { HideTimePicker(); } });
+	control.bind("click", function () { showTimePicker(control); });
+	control.bind("change paste", null, function () { currentInputControl = control; validateTimePicker(); });
+	control.bind("keydown", function (e) { if (e.keyCode == 27) { hideTimePicker(); validateTimePicker(); } }); //if Esc - hide control
+	control.bind("blur", function () { if (!isInsideTimePicker) { hideTimePicker(); } });
 }
 
 /// <summary>
-/// Установить время, если кликнули на Prefix
+/// Set time if "Prefix" was clicked
 /// </summary>
-/// <param name="value">Время суток</param>
-function SetTimeForPrefix(value)
+/// <param name="value">Day or night</param>
+function setTimeForPrefix(value)
 {
-	this.HideTimePicker();
-	this.SetTimePickerValue((value == 1) ? "11:00" : "23:00");
+	this.hideTimePicker();
+	this.setTimePickerValue((value == 1) ? "11:00" : "23:00");
 }
 
 /// <summary>
-/// Установить время, если кликнули на Hour или на Minute
+/// Set time if "Hour" or "Minute" was clicked
 /// </summary>
-function SetTime()
+function setTime()
 {
-	this.HideTimePicker();
+	this.hideTimePicker();
 	this.UpdateControlValue();
 }
 
@@ -63,7 +63,7 @@ function HoverTopLevel(topLevel)
 	downRowElements.removeClass('ui-state-highlight');
 	downRow.show(this.AnimSpeed);
 
-	this.RedrawTimePicker();
+	this.redrawTimePicker();
 	downRowElements.filter(':visible:first').addClass('ui-state-highlight');
 }
 
@@ -86,9 +86,9 @@ function HoverElement(element)
 function LeaveTimePicker() { isInsideTimePicker = false; }
 
 /// <summary>
-/// Перерисовать меню для выбора времени
+/// Redraw TimePicker-control
 /// </summary>
-function RedrawTimePicker()
+function redrawTimePicker()
 {
 	var hrs = this.timePicker.find('div:eq(1)');
 	var dayHours = hrs.find('span').slice(0, 12);
@@ -117,12 +117,12 @@ function RedrawTimePicker()
 }
 
 /// <summary>
-/// Показать меню для выбора времени
+/// Show a TimePicker-control
 /// </summary>
-/// <param name="control">Объект control'а</param>
-function ShowTimePicker(control)
+/// <param name="control">Html-element for input time</param>
+function showTimePicker(control)
 {
-	currentInputControl = control;
+    currentInputControl = control;
 
 	this.timePicker.css
 	({
@@ -133,18 +133,18 @@ function ShowTimePicker(control)
 }
 
 /// <summary>
-/// Скрыть меню для выбора времени
+/// Hide a TimePicker-control
 /// </summary>
-function HideTimePicker()
+function hideTimePicker()
 {
 	this.timePicker.find('div').hide();
 }
 
 /// <summary>
-/// Установить значение контрола
+/// Set a TimePicker-control's value
 /// </summary>
-/// <param name="validValue">Валидное значение</param>
-function SetTimePickerValue(validValue)
+/// <param name="validValue">Valid value</param>
+function setTimePickerValue(validValue)
 {
 	this.currentInputControl.data('initialValue', validValue);
 	this.currentInputControl.val(validValue);
@@ -153,9 +153,9 @@ function SetTimePickerValue(validValue)
 }
 
 /// <summary>
-/// Проверить валидность значения контрола
+/// Check if a TimePicker-control has a valid value
 /// </summary>
-function ValidateTimePicker()
+function validateTimePicker()
 {
 	var timeString = this.currentInputControl.val();
 
@@ -175,7 +175,7 @@ function ValidateTimePicker()
 		}
 	}
 
-	this.SetTimePickerValue(timeString);
+	this.setTimePickerValue(timeString);
 }
 
 /// <summary>
@@ -188,7 +188,7 @@ function UpdateControlValue()
 		m: this.GetTimePickerValue('minute')
 	};
 
-	this.SetTimePickerValue(this.FormatTimePickerValue(this.TimePickerFormat, val));
+	this.setTimePickerValue(this.FormatTimePickerValue(this.TimePickerFormat, val));
 }
 
 /// <summary>

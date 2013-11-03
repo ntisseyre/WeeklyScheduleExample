@@ -2,6 +2,9 @@
 {
     var scheduleContentDivs = $('.schedule-content');
 
+    //bind TimpePicker
+    scheduleContentDivs.find('input.time').each(function () {initTimePicker($(this));});
+
     //apply highlighting for the rows of the table on focus
     scheduleContentDivs.hover(
 		function () { $(this).addClass('ui-state-hover'); },
@@ -20,13 +23,13 @@
 
         //build a string with breaks' values and print out
 		var dialogForBreaks = GetBreaksDialogForContainer(breaksContainer);
-		SetBreaksContainerText(breaksContainer, dialogForBreaks);
+		setBreaksContainerText(breaksContainer, dialogForBreaks);
 
 		//apply highlighting on all rows of a breaks' edit table
 		addBreakRowsHighlightning(dialogForBreaks);
 	});
 
-	$(document).bind("timePickerChanged", function (event, data) { OnTimePickerChanged(data.inputControl); });
+	$(document).bind("timePickerChanged", function (event, data) { onTimePickerChanged(data.inputControl); });
 });
 
 /// <summary>
@@ -36,7 +39,7 @@ function disableSchedule()
 {
 	$('#scheduleTable').attr("disabled", "disabled");
 
-	$('#scheduleTable').find('input[type=text]').each(function () {
+	$('#scheduleTable').find('input.time').each(function () {
 		$(this).addClass('ignore-validation');
 	});
 
@@ -52,7 +55,7 @@ function disableSchedule()
 			workingType.removeAttr("onclick");
 		});
 
-		workingTypeDiv.find('input[type=text]').each(function ()
+		workingTypeDiv.find('input.time').each(function ()
 		{
 			var workHours = $(this);
 			workHours.unbind("click");
@@ -80,12 +83,12 @@ function disableSchedule()
 /// <param name="nextId">Working type id to switch to</param>
 /// <param name="breaksContainerId">Id of an Html element which contains breaks list</param>
 /// <param name="enableBreaks">A flag to make breaks enabled. For "day-off" breaks are disabled, for example.</param>
-function ChangeWorkingTypeManually(currentId, nextId, breaksContainerId, enableBreaks)
+function changeWorkingTypeManually(currentId, nextId, breaksContainerId, enableBreaks)
 {
-	this.ChangeWorkingType(currentId, nextId, $('#' + breaksContainerId), enableBreaks);
+	this.changeWorkingType(currentId, nextId, $('#' + breaksContainerId), enableBreaks);
 
-	if (this.IsMonday(nextId))
-		this.CopyWorkingTypeFromMonday(enableBreaks);
+	if (this.isMonday(nextId))
+		this.copyWorkingTypeFromMonday(enableBreaks);
 }
 
 /// <summary>
@@ -95,7 +98,7 @@ function ChangeWorkingTypeManually(currentId, nextId, breaksContainerId, enableB
 /// <param name="nextId">Working type id to switch to</param>
 /// <param name="breaksContainer">Id of an Html element which contains breaks list</param>
 /// <param name="enableBreaks">A flag to make breaks enabled. For "day-off" breaks are disabled, for example.</param>
-function ChangeWorkingType(currentId, nextId, breaksContainer, enableBreaks)
+function changeWorkingType(currentId, nextId, breaksContainer, enableBreaks)
 {
 	$('#' + currentId).hide();
 	$('#' + nextId).show();
@@ -114,7 +117,7 @@ function ChangeWorkingType(currentId, nextId, breaksContainer, enableBreaks)
 /// Copy working type from Monday to [Tuesday; Friday]
 /// </summary>
 /// <param name="enableBreaks">A flag to make breaks enabled. For "day-off" breaks are disabled, for example.</param>
-function CopyWorkingTypeFromMonday(enableBreaks)
+function copyWorkingTypeFromMonday(enableBreaks)
 {
     var workingTypeDivs = this.GetActiveWorkingTypes();
 	var mondayWorkingType = workingTypeDivs[0].id.split(ConstsForSchedule.IdSeparator)[1]; //Wokring type code for Monday
@@ -125,28 +128,29 @@ function CopyWorkingTypeFromMonday(enableBreaks)
 		var dayOfWeek = dayInfo[0]; //Name of a day of a week
 		var nextId = dayOfWeek + ConstsForSchedule.IdSeparator + mondayWorkingType; //Working type to be set for a specified day of a week
 		var breaksContainer = this.GetBreaksContainerForDayOfWeek(dayOfWeek);
-		this.ChangeWorkingType(workingTypeDivs[c].id, nextId, breaksContainer, enableBreaks);
+		this.changeWorkingType(workingTypeDivs[c].id, nextId, breaksContainer, enableBreaks);
 	}
 }
 
 /// <summary>
-/// Обработчик события изменения любого TimePicker'а
+/// Handler of a Timepicker-control's value changed
 /// </summary>
-/// <param name="inputControl">TimePicker, у которого поменялось значение</param>
-function OnTimePickerChanged(inputControl)
+/// <param name="inputControl">Html-element which triggered an event</param>
+function onTimePickerChanged(inputControl)
 {
 	if (inputControl.val() == "")
 		return;
 
-	var cellForTimePicker = inputControl.parent(); //td
-	if (cellForTimePicker.hasClass('break')) //Если этот TimePicker относится к break'ам, то пробуем добавить новые контролы
+	var divRow = inputControl.parent().parent();//input -> div[table-cell] -> div[table-row]
+
+	if (divRow.hasClass('breakRow')) //If Timepicker-control is a break -> add new row for input
 	{
-		this.AddNewBreak(cellForTimePicker);
+	    this.addNewBreak(divRow);
 	}
 	else
 	{
-		if (this.IsMonday(inputControl.attr("id")))
-			this.CopyWorkHoursFromMonday(inputControl, cellForTimePicker);
+		if (this.isMonday(inputControl.attr("id")))
+		    this.copyWorkHoursFromMonday(inputControl, divRow);
 	}
 }
 
@@ -155,12 +159,12 @@ function OnTimePickerChanged(inputControl)
 /// For Friday only "from".
 /// </summary>
 /// <param name="changedControl">Html-element which triggered a coping of working hours</param>
-/// <param name="cellForTimePicker">Td'шка, в которой живет данный контрол</param>
-function CopyWorkHoursFromMonday(changedControl, cellForTimePicker)
+/// <param name="divRow">Div-row where timePicker-control lives</param>
+function copyWorkHoursFromMonday(changedControl, divRow)
 {
 	var newTime;
 	var isOpenTimeChanged = true;
-	var mondayWorkHours = cellForTimePicker.find('input[type=text]');
+	var mondayWorkHours = divRow.find('input.time');
 	if (mondayWorkHours[0].id == changedControl.attr("id"))
 	{
 		newTime = $(mondayWorkHours[0]).val();
@@ -174,7 +178,7 @@ function CopyWorkHoursFromMonday(changedControl, cellForTimePicker)
 	var workingTypeDivs = this.GetActiveWorkingTypes();
 	for (var c = 1; c < workingTypeDivs.length - 2; c++)//iterate from Tuesday to Friday
 	{
-		var workHours = $(workingTypeDivs[c]).find('input[type=text]');
+		var workHours = $(workingTypeDivs[c]).find('input.time');
 		if (workHours.length != 0)
 		{
 			if (isOpenTimeChanged)
@@ -199,7 +203,7 @@ function ShowBreaks(breaksContainer, breaksDialogId, breaksTitle)
 	var previousHtml = breaksDialog.html();
 	
 	var previousInputValues = [];
-	breaksDialog.find('input[type=text]').each(function () { previousInputValues.push(this.value); });
+	breaksDialog.find('input.time').each(function () { previousInputValues.push(this.value); });
 
 	breaksDialog.dialog({
 		width: 200,
@@ -212,14 +216,14 @@ function ShowBreaks(breaksContainer, breaksDialogId, breaksTitle)
 		{
 			Ok: function ()
 			{
-				if (ValidateBreaks(breaksDialog.find('input[type=text]')))
+				if (ValidateBreaks(breaksDialog.find('input.time')))
 				{
 					breaksDialog.dialog("close");
 
-					SetBreaksContainerText(GetBreaksContainerForDialog(breaksDialog), breaksDialog);
+					setBreaksContainerText(GetBreaksContainerForDialog(breaksDialog), breaksDialog);
 
-					if (IsMonday(breaksDialogId))
-						CopyBreaksFromMonday();
+					if (isMonday(breaksDialogId))
+						copyBreaksFromMonday();
 				}
 
 			},
@@ -230,10 +234,10 @@ function ShowBreaks(breaksContainer, breaksDialogId, breaksTitle)
 				addBreakRowsHighlightning(breaksDialog);//bind again
 
 				var c = 0;
-				breaksDialog.find('input[type=text]').each(function ()
+				breaksDialog.find('input.time').each(function ()
 				{
 					this.value = previousInputValues[c++];
-					InitTimePicker($(this));
+					initTimePicker($(this));
 				});
 			}
 		},
@@ -246,11 +250,11 @@ function ShowBreaks(breaksContainer, breaksDialogId, breaksTitle)
 /// </summary>
 /// <param name="breaksContainer">Html element that contains breaks-text</param>
 /// <param name="breaksDialog">Dialog-div to edit breaks</param>
-function SetBreaksContainerText(breaksContainer, breaksDialog)
+function setBreaksContainerText(breaksContainer, breaksDialog)
 {
 	var counter = 0;
 	var result = "";
-	var timePickers = breaksDialog.find('input[type=text]');
+	var timePickers = breaksDialog.find('input.time');
 
 	for (var c = 0; c < timePickers.length; c += 2)
 	{
@@ -280,15 +284,15 @@ function SetBreaksContainerText(breaksContainer, breaksDialog)
 /// Copy breaks from Monday to [Tuesday; Friday].
 /// </summary>
 /// <param name="breaksContainer">Html-element which contains text-representation of breaks' list</param>
-function CopyBreaksFromMonday()
+function copyBreaksFromMonday()
 {
 	var breaksContainersIds = this.GetBreaksContainers();
-	var mondayBreaks = this.GetBreaksForContainer($(breaksContainersIds[0]));
+	var mondayBreaks = this.getBreaksInputForContainer($(breaksContainersIds[0]));
 
 	for (var c = 1; c < breaksContainersIds.length - 2; c++)//iterate from Tuesday to Friday
 	{
 		var breaksContainer = $(breaksContainersIds[c]);
-		var dayBreaks = this.GetBreaksForContainer(breaksContainer); //Breaks for a day of a week
+		var dayBreaks = this.getBreaksInputForContainer(breaksContainer); //Breaks for a day of a week
 		if (dayBreaks == null)
 			continue;
 
@@ -307,7 +311,7 @@ function CopyBreaksFromMonday()
 			else
 			{
 				//Add missing breaks
-				lastRow = this.CloneBreakRow(lastRow, mondayBreaks[i].value, mondayBreaks[i + 1].value);
+				lastRow = this.cloneBreakRow(lastRow, mondayBreaks[i].value, mondayBreaks[i + 1].value);
 			}
 		}
 
@@ -321,21 +325,20 @@ function CopyBreaksFromMonday()
 			}
 		}
 
-		this.SetBreaksContainerText(breaksContainer, this.GetBreaksDialogForContainer(breaksContainer));
+		this.setBreaksContainerText(breaksContainer, this.GetBreaksDialogForContainer(breaksContainer));
 	}
 }
 
 /// <summary>
-/// Добавить новый перерыв
+/// Add a new break
 /// </summary>
-/// <param name="cellForBreak">td'шка, в которой живет timePicker</param>
-function AddNewBreak(cellForBreak)
+/// <param name="divRow">Div-row where timePicker lives</param>
+function addNewBreak(divRow)
 {
-	var rowForBreak = cellForBreak.parent(); //tr
-	if (rowForBreak.index() != rowForBreak.siblings().length)//Если контрол Не последний, то ничего не делаем
+    if (divRow.index() != divRow.siblings().length)//If row is not the last one -> skip
 		return;
 
-	this.CloneBreakRow(rowForBreak, '', '');
+    this.cloneBreakRow(divRow, '', '');
 }
 
 /// <summary>
@@ -344,13 +347,13 @@ function AddNewBreak(cellForBreak)
 /// <param name="lastRow">A row to copy from</param>
 /// <param name="fromValue">Time "from"</param>
 /// <param name="toValue">Time "to"</param>
-function CloneBreakRow(lastRow, fromValue, toValue)
+function cloneBreakRow(lastRow, fromValue, toValue)
 {
 	var c = 0;
 	var nextIndex = (lastRow.index() + 1).toString();
 	var clone = lastRow.clone()
 		.hover(function () { $(this).addClass('ui-state-hover'); }, function () { $(this).removeClass('ui-state-hover'); })
-		.find('input[type=text]') //find all Html-elements to enter time
+		.find('input.time') //find all Html-elements to enter time
 		.each(function ()
 		{
 			var breakInput = $(this);
@@ -365,7 +368,7 @@ function CloneBreakRow(lastRow, fromValue, toValue)
 				breakInput.val(toValue);
 			}
 
-			InitTimePicker(breakInput); //init timePicker control
+			initTimePicker(breakInput); //init timePicker control
 		})
 		.end() //return to a clone
 		.insertAfter(lastRow);
@@ -432,7 +435,7 @@ function GetOperationHours()
 /// <param name="workingTypeDiv">Объект, который содержит в себе контролы для задания рабочих часов</param>
 function GetWorkHours(workingTypeDiv)
 {
-	var workHours = workingTypeDiv.find('input[type=text]');
+	var workHours = workingTypeDiv.find('input.time');
 	if (workHours.length == 0)
 		return {};
 
@@ -472,7 +475,7 @@ function ValidateOperationHours()
 	var workingTypeDivs = this.GetActiveWorkingTypes();
 	for (var c = 0; c < workingTypeDivs.length; c++)
 	{
-		var workHours = $(workingTypeDivs[c]).find('input[type=text]');
+		var workHours = $(workingTypeDivs[c]).find('input.time');
 		if (workHours.length != 0)
 		{
 			if (!this.ValidateTimeInterval($(workHours[0]), $(workHours[1])))
@@ -588,26 +591,25 @@ function GetBreaksContainers()
 function GetBreaksForDayOfWeek(dayOfWeek)
 {
 	var breaksContainer = this.GetBreaksContainerForDayOfWeek(dayOfWeek);
-	return this.GetBreaksForContainer(breaksContainer);
+	return this.getBreaksInputForContainer(breaksContainer);
 }
 
 
 /// <summary>
-/// Получить список перерывов для соответствующего контейнера
+/// Get a breaks' list by the breaks' container
 /// </summary>
-/// <param name="breaksContainer">Объект контейнера</param>
-///<returns>Список контролов для ввода перерывов для указанного контейнера</returns>
-function GetBreaksForContainer(breaksContainer)
+/// <param name="breaksContainer">Breaks container element</param>
+///<returns>A list of Html-elements "input" to edit breaks</returns>
+function getBreaksInputForContainer(breaksContainer)
 {
-    alert(breaksContainer);
 	if (!breaksContainer.is(':visible'))
 		return null;
 
-	return this.GetBreaksDialogForContainer(breaksContainer).find('input[type=text]');
+	return this.GetBreaksDialogForContainer(breaksContainer).find('input.time');
 }
 
 /// <summary>
-/// Get a dialog-div to edit breaks by the breaks container
+/// Get a dialog-div to edit breaks by the breaks' container
 /// </summary>
 /// <param name="container">Breaks container element</param>
 ///<returns>Dialog-div to edit breaks</returns>
@@ -637,11 +639,11 @@ function GetBreaksContainerForDialog(dialog)
 }
 
 /// <summary>
-/// Принадлежит ли указанный элемент понедельнику
+/// Check if currnet Html-element belongs to Monday
 /// </summary>
-/// <param name="elementId">Уникальный идентификатор элемента</param>
-///<returns>True - это понедельник, иначе False</returns>
-function IsMonday(elementId)
+/// <param name="elementId">Element's id</param>
+///<returns>True - it is Monday, otherwise False</returns>
+function isMonday(elementId)
 {
 	return elementId.toLowerCase().indexOf("monday") >= 0;
 }

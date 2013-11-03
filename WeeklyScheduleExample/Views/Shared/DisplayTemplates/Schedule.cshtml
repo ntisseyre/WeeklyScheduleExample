@@ -58,14 +58,14 @@
 
 <div id="timeMenu" class="ui-timepickr ui-widget">
 	<div class="prefixRow" onmouseout="javascript:LeaveTimePicker();">
-		<span class="prefix ui-state-hover ui-corner-all" onmouseover="javascript:HoverTopLevel($(this));" onclick="javascript:SetTimeForPrefix(1);">00-11</span><span class="prefix ui-state-hover ui-corner-all" onmouseover="javascript:HoverTopLevel($(this));" onclick="javascript:SetTimeForPrefix(2);">12-23</span>
+		<span class="prefix ui-state-hover ui-corner-all" onmouseover="javascript:HoverTopLevel($(this));" onclick="javascript:setTimeForPrefix(1);">00-11</span><span class="prefix ui-state-hover ui-corner-all" onmouseover="javascript:HoverTopLevel($(this));" onclick="javascript:setTimeForPrefix(2);">12-23</span>
 	</div>
 	<div onmouseout="javascript:LeaveTimePicker();">
 		@for (int hour = 0; hour < 24; hour++)
-		{<span class="hour ui-state-hover ui-corner-all" onmouseover="javascript:HoverTopLevel($(this));" onclick="javascript:SetTime();">@hour.ToString("D2")</span>}
+		{<span class="hour ui-state-hover ui-corner-all" onmouseover="javascript:HoverTopLevel($(this));" onclick="javascript:setTime();">@hour.ToString("D2")</span>}
 	</div>
 	<div onmouseout="javascript:LeaveTimePicker();">
 		@for (int minute = 0; minute < 60; minute+=10)
-		{<span class="minute ui-state-hover ui-corner-all" onmouseover="javascript:HoverElement($(this));" onclick="javascript:SetTime();" >@minute.ToString("D2")</span>}
+		{<span class="minute ui-state-hover ui-corner-all" onmouseover="javascript:HoverElement($(this));" onclick="javascript:setTime();" >@minute.ToString("D2")</span>}
 	</div>
 </div>
