@@ -9,13 +9,13 @@
 	IHtmlString breaksDialogId = Html.Raw("dialogFor" + breaksContainerId);
 }
 
-<div id="@breaksContainerId" class="breaksContainer" style="@Html.IsBreakContainerVisible()" onclick="javascript:ShowBreaks(this, '@breaksDialogId', '@Html.GetBreaksDialogTitle()');"></div>
+<div id="@breaksContainerId" class="breaksContainer" style="@Html.IsBreakContainerVisible()" onclick="javascript:showBreaks(this, '@breaksDialogId', '@Html.GetBreaksDialogTitle()');"></div>
 <div id="@breaksDialogId" class="breaksDialog">
 	@foreach (BreakControlInfo breakHours in Html.GetBreaks())
 	{
 		<div class="breakRow">
 			<div>@breakHours.BreakControl</div>
-            <a href="javascript:return false;" onclick="javascript:DeleteBreak($(this));" style="@breakHours.IsDeleteButtonVisible">&nbsp;</a>
+            <a href="javascript:return false;" onclick="javascript:deleteBreak($(this));" style="@breakHours.IsDeleteButtonVisible">&nbsp;</a>
 		</div>
 	}
 </div>

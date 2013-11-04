@@ -84,10 +84,10 @@ div.breakRow > div
 }
 div.breakRow > a
 {
-    cursor: pointer;
-    text-decoration:none;
-	margin-top:3px;
-    width:16px;height:16px;
+    display:block;
+    cursor: pointer;text-decoration:none;
+	margin-top:3px;height:16px;
+    width:16px;min-width:16px!important;
     background-image: url(../img/delete.png);
     background-repeat:no-repeat;
 }

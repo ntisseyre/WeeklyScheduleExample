@@ -43,7 +43,7 @@ function disableSchedule()
 		$(this).addClass('ignore-validation');
 	});
 
-	var workingTypeDivs = this.GetActiveWorkingTypes();
+	var workingTypeDivs = this.getActiveWorkingTypes();
 	for (var c = 0; c < workingTypeDivs.length; c++)
 	{
 		var workingTypeDiv = $(workingTypeDivs[c]);
@@ -63,7 +63,7 @@ function disableSchedule()
 		});
 	}
 
-	var breaksContainers = this.GetBreaksContainers();
+	var breaksContainers = this.getBreaksContainers();
 	for (var c = 0; c < breaksContainers.length; c++)
 	{
 		var breaksContainer = $(breaksContainers[c]);
@@ -119,7 +119,7 @@ function changeWorkingType(currentId, nextId, breaksContainer, enableBreaks)
 /// <param name="enableBreaks">A flag to make breaks enabled. For "day-off" breaks are disabled, for example.</param>
 function copyWorkingTypeFromMonday(enableBreaks)
 {
-    var workingTypeDivs = this.GetActiveWorkingTypes();
+    var workingTypeDivs = this.getActiveWorkingTypes();
 	var mondayWorkingType = workingTypeDivs[0].id.split(ConstsForSchedule.IdSeparator)[1]; //Wokring type code for Monday
 
 	for (var c = 1; c < workingTypeDivs.length - 2; c++) //iterate from Tuesday to Friday
@@ -175,7 +175,7 @@ function copyWorkHoursFromMonday(changedControl, divRow)
 		isOpenTimeChanged = false;
 	}
 
-	var workingTypeDivs = this.GetActiveWorkingTypes();
+	var workingTypeDivs = this.getActiveWorkingTypes();
 	for (var c = 1; c < workingTypeDivs.length - 2; c++)//iterate from Tuesday to Friday
 	{
 		var workHours = $(workingTypeDivs[c]).find('input.time');
@@ -197,7 +197,7 @@ function copyWorkHoursFromMonday(changedControl, divRow)
 /// <param name="breaksContainer">Html-element which contains a text-representation of breaks</param>
 /// <param name="breaksDialogId">Breaks' list dialog Id</param>
 /// <param name="breaksTitle">Breaks' list dialog title</param>
-function ShowBreaks(breaksContainer, breaksDialogId, breaksTitle)
+function showBreaks(breaksContainer, breaksDialogId, breaksTitle)
 {
     var breaksDialog = $('#' + breaksDialogId);
 	var previousHtml = breaksDialog.html();
@@ -286,7 +286,7 @@ function setBreaksContainerText(breaksContainer, breaksDialog)
 /// <param name="breaksContainer">Html-element which contains text-representation of breaks' list</param>
 function copyBreaksFromMonday()
 {
-	var breaksContainersIds = this.GetBreaksContainers();
+	var breaksContainersIds = this.getBreaksContainers();
 	var mondayBreaks = this.getBreaksInputForContainer($(breaksContainersIds[0]));
 
 	for (var c = 1; c < breaksContainersIds.length - 2; c++)//iterate from Tuesday to Friday
@@ -381,7 +381,7 @@ function cloneBreakRow(lastRow, fromValue, toValue)
 /// Delete a break from breaks' table
 /// </summary>
 /// <param name="imgForDelete">Html-element "a" which was clicked</param>
-function DeleteBreak(imgForDelete)
+function deleteBreak(imgForDelete)
 {
     var rowForBreak = imgForDelete.parent();
 
@@ -411,7 +411,7 @@ function GetOperationHours()
 {
 	var result = {};
 
-	var workingTypeDivs = this.GetActiveWorkingTypes();
+	var workingTypeDivs = this.getActiveWorkingTypes();
 	for (var c = 0; c < workingTypeDivs.length; c++)
 	{
 		var dayInfo = workingTypeDivs[c].id.split(ConstsForSchedule.IdSeparator);
@@ -472,7 +472,7 @@ function GetBreaks(dayOfWeek)
 ///<returns>True - если все Ок, иначе False</returns>
 function ValidateOperationHours()
 {
-	var workingTypeDivs = this.GetActiveWorkingTypes();
+	var workingTypeDivs = this.getActiveWorkingTypes();
 	for (var c = 0; c < workingTypeDivs.length; c++)
 	{
 		var workHours = $(workingTypeDivs[c]).find('input.time');
@@ -565,19 +565,19 @@ function ShowWarning(message, callBack)
 //===================================================================== DOM Navigation functions =====================================================================//
 
 /// <summary>
-/// Get set working types for a whole week
+/// Get active(visible to a user) working types for a whole week
 /// </summary>
 ///<returns>A list of set working types for each day of a week</returns>
-function GetActiveWorkingTypes()
+function getActiveWorkingTypes()
 {
     return $('.schedule-workingType:visible');
 }
 
 /// <summary>
-/// Get breaks for a whole week
+/// Get html-elements to display breaks as a text for a whole week
 /// </summary>
 ///<returns>A list of breaks for each day of a week</returns>
-function GetBreaksContainers()
+function getBreaksContainers()
 {
     return $('.schedule-content').find('div.breaksContainer');
 }
