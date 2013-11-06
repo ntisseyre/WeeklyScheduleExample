@@ -21,7 +21,7 @@ namespace WeeklyScheduleExample.Controllers
         {
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(weekModel.ToString());
-            xmlDocument.Save(Server.MapPath("~/") + "WeeklyScheduleUpdated.xml");
+            xmlDocument.Save(Server.MapPath("~/WeeklyScheduleExample.xml"));
 
             return Json("Ok");
         }
