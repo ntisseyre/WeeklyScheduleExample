@@ -1,3 +1,11 @@
 ﻿body {font:13px/19px 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif}
 .ui-dialog-title, .ui-dialog-content {font:13px/19px 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif !important;}
+
 div.main{margin-top:20px;margin-left:20px}
+div.main > label {display:block}
+textarea.json
+{
+	width:500px;
+	max-width:600px;
+	height:350px
+}

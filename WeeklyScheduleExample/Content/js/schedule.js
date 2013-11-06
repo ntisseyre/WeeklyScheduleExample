@@ -405,9 +405,9 @@ function addBreakRowsHighlightning(dialogForBreaks)
 //===================================================================== Save functions =====================================================================//
 
 /// <summary>
-/// Получить Json-представление расписания
+/// Get schedule in JSON format
 /// </summary>
-function GetOperationHours()
+function getJsonSchedule()
 {
 	var result = {};
 
@@ -415,14 +415,14 @@ function GetOperationHours()
 	for (var c = 0; c < workingTypeDivs.length; c++)
 	{
 		var dayInfo = workingTypeDivs[c].id.split(ConstsForSchedule.IdSeparator);
-		var dayOfWeek = dayInfo[0]; //Название дня недели
-		var workingType = dayInfo[1]; //Код режима работы
+		var dayOfWeek = dayInfo[0]; //Name of a day of a week
+		var workingType = dayInfo[1]; //Working type code
 
 		result[dayOfWeek] =
 		{
 			WorkingType: workingType,
-			WorkHours: this.GetWorkHours($(workingTypeDivs[c])),
-			Breaks: this.GetBreaks(dayOfWeek)
+			WorkHours: this.getJsonWorkHours($(workingTypeDivs[c])),
+			Breaks: this.getJsonBreaks(dayOfWeek)
 		};
 	}
 
@@ -430,10 +430,10 @@ function GetOperationHours()
 }
 
 /// <summary>
-/// Получить Json-представление рабочих часов
+/// Get working hours JSON format
 /// </summary>
-/// <param name="workingTypeDiv">Объект, который содержит в себе контролы для задания рабочих часов</param>
-function GetWorkHours(workingTypeDiv)
+/// <param name="workingTypeDiv">An Html-element that contains controls to edit time</param>
+function getJsonWorkHours(workingTypeDiv)
 {
 	var workHours = workingTypeDiv.find('input.time');
 	if (workHours.length == 0)
@@ -443,10 +443,10 @@ function GetWorkHours(workingTypeDiv)
 }
 
 /// <summary>
-/// Получить Json-представление перерывов
+/// Get breaks JSON format
 /// </summary>
-/// <param name="dayOfWeek">Название дня недели</param>
-function GetBreaks(dayOfWeek)
+/// <param name="dayOfWeek">Name of a day of a week</param>
+function getJsonBreaks(dayOfWeek)
 {
 	var timePickers = this.getBreaksForDayOfWeek(dayOfWeek);
 	if (timePickers == null)
