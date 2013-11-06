@@ -13,7 +13,10 @@
         <script type="text/javascript" src="@Url.Content("~/Content/js/timePicker.js")"></script>
     </head>
     <body>
-        <div class="main"><input type="button" value="Disable" onclick="javascript:disableSchedule();" /></div>
+        <div class="main">
+            <input type="button" value="Disable" onclick="javascript:disableSchedule();" />
+            <input type="button" value="Validate" onclick="javascript: if (validateSchedule()) alert('Ok');" />
+        </div>
         <div class="main">@Html.DisplayForModel("Schedule")</div>
     </body>
 </html>

@@ -22,7 +22,7 @@
 			function () { breaksContainer.removeClass('ui-state-highlight'); });
 
         //build a string with breaks' values and print out
-		var dialogForBreaks = GetBreaksDialogForContainer(breaksContainer);
+		var dialogForBreaks = getBreaksDialogForContainer(breaksContainer);
 		setBreaksContainerText(breaksContainer, dialogForBreaks);
 
 		//apply highlighting on all rows of a breaks' edit table
@@ -127,7 +127,7 @@ function copyWorkingTypeFromMonday(enableBreaks)
 		var dayInfo = workingTypeDivs[c].id.split(ConstsForSchedule.IdSeparator);
 		var dayOfWeek = dayInfo[0]; //Name of a day of a week
 		var nextId = dayOfWeek + ConstsForSchedule.IdSeparator + mondayWorkingType; //Working type to be set for a specified day of a week
-		var breaksContainer = this.GetBreaksContainerForDayOfWeek(dayOfWeek);
+		var breaksContainer = this.getBreaksContainerForDayOfWeek(dayOfWeek);
 		this.changeWorkingType(workingTypeDivs[c].id, nextId, breaksContainer, enableBreaks);
 	}
 }
@@ -216,11 +216,11 @@ function showBreaks(breaksContainer, breaksDialogId, breaksTitle)
 		{
 			Ok: function ()
 			{
-				if (ValidateBreaks(breaksDialog.find('input.time')))
+				if (validateBreaks(breaksDialog.find('input.time')))
 				{
 					breaksDialog.dialog("close");
 
-					setBreaksContainerText(GetBreaksContainerForDialog(breaksDialog), breaksDialog);
+					setBreaksContainerText(getBreaksContainerForDialog(breaksDialog), breaksDialog);
 
 					if (isMonday(breaksDialogId))
 						copyBreaksFromMonday();
@@ -325,7 +325,7 @@ function copyBreaksFromMonday()
 			}
 		}
 
-		this.setBreaksContainerText(breaksContainer, this.GetBreaksDialogForContainer(breaksContainer));
+		this.setBreaksContainerText(breaksContainer, this.getBreaksDialogForContainer(breaksContainer));
 	}
 }
 
@@ -448,7 +448,7 @@ function GetWorkHours(workingTypeDiv)
 /// <param name="dayOfWeek">Название дня недели</param>
 function GetBreaks(dayOfWeek)
 {
-	var timePickers = this.GetBreaksForDayOfWeek(dayOfWeek);
+	var timePickers = this.getBreaksForDayOfWeek(dayOfWeek);
 	if (timePickers == null)
 		return {};
 
@@ -467,10 +467,10 @@ function GetBreaks(dayOfWeek)
 //===================================================================== Validation functions =====================================================================//
 
 /// <summary>
-/// Проверить все данные в расписание
+/// Validate schedule data: working types, working hours, breaks
 /// </summary>
-///<returns>True - если все Ок, иначе False</returns>
-function ValidateOperationHours()
+///<returns>True - everything is Ok, otherwise False</returns>
+function validateSchedule()
 {
 	var workingTypeDivs = this.getActiveWorkingTypes();
 	for (var c = 0; c < workingTypeDivs.length; c++)
@@ -478,12 +478,12 @@ function ValidateOperationHours()
 		var workHours = $(workingTypeDivs[c]).find('input.time');
 		if (workHours.length != 0)
 		{
-			if (!this.ValidateTimeInterval($(workHours[0]), $(workHours[1])))
+			if (!this.validateTimeInterval($(workHours[0]), $(workHours[1])))
 				return false;
 		}
 
-		var dayOfWeek = workingTypeDivs[c].id.split(ConstsForSchedule.IdSeparator)[0]; //Название дня недели
-		if (!this.ValidateBreaks(this.GetBreaksForDayOfWeek(dayOfWeek)))
+		var dayOfWeek = workingTypeDivs[c].id.split(ConstsForSchedule.IdSeparator)[0]; //Name of a day of a week
+		if (!this.validateBreaks(this.getBreaksForDayOfWeek(dayOfWeek)))
 			return false;
 	}
 
@@ -491,42 +491,42 @@ function ValidateOperationHours()
 }
 
 /// <summary>
-/// Проверить перерывы
+/// Validate breaks
 /// </summary>
-/// <param name="breaks">Список перерывов</param>
-///<returns>True - если все Ок, иначе False</returns>
-function ValidateBreaks(breaks)
+/// <param name="breaks">A list of Html-elements "input" to edit breaks</param>
+///<returns>True - everything is Ok, otherwise False</returns>
+function validateBreaks(breaks)
 {
 	if (breaks == null)
 		return true;
 
 	for (var c = 0; c < breaks.length - 2; c += 2)
-		if (!this.ValidateTimeInterval($(breaks[c]), $(breaks[c + 1])))
+		if (!this.validateTimeInterval($(breaks[c]), $(breaks[c + 1])))
 			return false;
 
 	return true;
 }
 
 /// <summary>
-/// Проверить корректность временного интервала
+/// Validate time interval is set properly
 /// </summary>
-/// <param name="from">Время "с"</param>
-/// <param name="to">Время "по"</param>
-///<returns>True - если все Ок, иначе False</returns>
-function ValidateTimeInterval(from, to)
+/// <param name="from">Time "from"</param>
+/// <param name="to">Time "to"</param>
+///<returns>True - everything is Ok, otherwise False</returns>
+function validateTimeInterval(from, to)
 {
 	var fromValue = from.val();
 	var toValue = to.val();
 
 	if (fromValue == "")
 	{
-		this.ShowWarning(ConstsForSchedule.E_EmptyTime, function () { from.focus(); });
+		this.showWarning(ConstsForSchedule.E_EmptyTime, function () { from.focus(); });
 		return false;
 	}
 
 	if (toValue == "")
 	{
-		this.ShowWarning(ConstsForSchedule.E_EmptyTime, function () { to.focus(); });
+		this.showWarning(ConstsForSchedule.E_EmptyTime, function () { to.focus(); });
 		return false;
 	}
 
@@ -537,7 +537,7 @@ function ValidateTimeInterval(from, to)
 	var toHours = parseInt(toArray[0]);
 	if (fromHours > toHours)
 	{
-		this.ShowWarning(ConstsForSchedule.E_IntervalIsNotValid, function () { from.focus(); });
+		this.showWarning(ConstsForSchedule.E_IntervalIsNotValid, function () { from.focus(); });
 		return false;
 	}
 
@@ -545,7 +545,7 @@ function ValidateTimeInterval(from, to)
 	var toMinutes = parseInt(toArray[1]);
 	if (fromHours == toHours && fromMinutes > toMinutes)
 	{
-		this.ShowWarning(ConstsForSchedule.E_IntervalIsNotValid, function () { from.focus(); });
+		this.showWarning(ConstsForSchedule.E_IntervalIsNotValid, function () { from.focus(); });
 		return false;
 	}
 
@@ -553,13 +553,14 @@ function ValidateTimeInterval(from, to)
 }
 
 /// <summary>
-/// Показать окно с ошибкой валидации
+/// Show a validation error
 /// </summary>
-/// <param name="message">Сообщение об ошибке</param>
-/// <param name="callBack">CallBack, который будет позван при закрытии окна</param>
-function ShowWarning(message, callBack)
+/// <param name="message">Error message</param>
+/// <param name="callBack">CallBack-function after closing a window</param>
+function showWarning(message, callBack)
 {
-	WU.MessageBox.ShowModalDialogWithMessage('WarningDialog', message, 180, 330, { Ok: function () { $(this).dialog("close"); } }, callBack).dialog('option', 'title', 'Валидация расписания');
+    alert(message);
+    callBack();
 }
 
 //===================================================================== DOM Navigation functions =====================================================================//
@@ -582,18 +583,26 @@ function getBreaksContainers()
     return $('.schedule-content').find('div.breaksContainer');
 }
 
-
 /// <summary>
-/// Получить список перерывов для дня недели
+/// Get an html-element to display breaks as a text for a day of a week
 /// </summary>
-/// <param name="dayOfWeek">Название дня недели</param>
-///<returns>Список контролов для ввода перерывов для указанного дня недели</returns>
-function GetBreaksForDayOfWeek(dayOfWeek)
+/// <param name="dayOfWeek">Name of a day of a week</param>
+///<returns>An Html-element "div" that contains breaks' list as a text</returns>
+function getBreaksContainerForDayOfWeek(dayOfWeek)
 {
-	var breaksContainer = this.GetBreaksContainerForDayOfWeek(dayOfWeek);
-	return this.getBreaksInputForContainer(breaksContainer);
+    return $("#" + dayOfWeek + ConstsForSchedule.IdSeparator + "Breaks");
 }
 
+/// <summary>
+/// Get a breaks' list for a day of a week
+/// </summary>
+/// <param name="dayOfWeek">Name of a day of a week</param>
+///<returns>A list of Html-elements "input" to edit breaks</returns>
+function getBreaksForDayOfWeek(dayOfWeek)
+{
+	var breaksContainer = this.getBreaksContainerForDayOfWeek(dayOfWeek);
+	return this.getBreaksInputForContainer(breaksContainer);
+}
 
 /// <summary>
 /// Get a breaks' list by the breaks' container
@@ -605,7 +614,7 @@ function getBreaksInputForContainer(breaksContainer)
 	if (!breaksContainer.is(':visible'))
 		return null;
 
-	return this.GetBreaksDialogForContainer(breaksContainer).find('input.time');
+	return this.getBreaksDialogForContainer(breaksContainer).find('input.time');
 }
 
 /// <summary>
@@ -613,27 +622,17 @@ function getBreaksInputForContainer(breaksContainer)
 /// </summary>
 /// <param name="container">Breaks container element</param>
 ///<returns>Dialog-div to edit breaks</returns>
-function GetBreaksDialogForContainer(container)
+function getBreaksDialogForContainer(container)
 {
 	return $('#dialogFor' + container.attr("id"));
 }
 
 /// <summary>
-/// Получить контейнер с описанием перерывов
+/// Get a breaks' container (an html-element to display breaks as a text) for a dialog-div to edit breaks
 /// </summary>
-/// <param name="dayOfWeek">Название дня недели</param>
-///<returns>Контейнер с описанием перерывов для дня недели</returns>
-function GetBreaksContainerForDayOfWeek(dayOfWeek)
-{
-	return $("#" + dayOfWeek + ConstsForSchedule.IdSeparator + "Breaks");
-}
-
-/// <summary>
-/// Получить контейнер с описанием перерывов по диалогу для ввода перерывов
-/// </summary>
-/// <param name="dialog">Объект диалога</param>
-///<returns>Контейнер с описанием перерывов для соответствующего диалога</returns>
-function GetBreaksContainerForDialog(dialog)
+/// <param name="dialog">Dialog-div to edit breaks</param>
+///<returns>Breaks container element</returns>
+function getBreaksContainerForDialog(dialog)
 {
 	return $("#" + dialog.attr("id").replace(/^dialogFor/, ""));
 }
