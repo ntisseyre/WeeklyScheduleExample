@@ -255,6 +255,16 @@ namespace WeeklyScheduleExample
 							   html.EditorFor(m => to, "Time", toName)));
 		}
 
+        /// <summary>
+        /// Get formatted time
+        /// </summary>
+        /// <param name="timeSpan">Time</param>
+        /// <returns>Formatted time</returns>
+        public static string GetFormattedTime(this TimeSpan timeSpan)
+        {
+            return timeSpan == TimeSpan.Zero ? "" : (timeSpan.Hours.ToString("D2") + ":" + timeSpan.Minutes.ToString("D2"));
+        }
+
 		/// <summary>
 		/// Get a formatted name for an Html element
 		/// </summary>
