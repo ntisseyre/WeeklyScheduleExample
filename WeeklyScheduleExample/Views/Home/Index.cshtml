@@ -11,12 +11,40 @@
         <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
         <script type="text/javascript" src="@Url.Content("~/Content/js/schedule.js")"></script>
         <script type="text/javascript" src="@Url.Content("~/Content/js/timePicker.js")"></script>
+        <script type="text/javascript">
+            function validateClickedHandler()
+            {
+                if (validateSchedule())
+                    alert('Ok');
+            }
+            function getJsonClickedHandler()
+            {
+                document.getElementById('jsonResult').value = JSON.stringify(getJsonSchedule(), null, 2);
+            }
+            function saveClickedHandler()
+            {
+                if (!validateSchedule())
+                    return;
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Save")",
+                    data: JSON.stringify(getJsonSchedule()),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    async: true,
+                    success: function () { alert('Success'); },
+                    error: function () { alert('Error!!!!'); }
+                });
+            }
+        </script>
     </head>
     <body>
         <div class="main">
             <input type="button" value="Disable" onclick="javascript:disableSchedule();" />
-            <input type="button" value="Validate" onclick="javascript: if (validateSchedule()) alert('Ok');" />
-            <input type="button" value="Get Json" onclick="javascript:document.getElementById('jsonResult').value = JSON.stringify(getJsonSchedule(), null, 2);" />
+            <input type="button" value="Validate" onclick="javascript: validateClickedHandler();"  />
+            <input type="button" value="Get Json" onclick="javascript: getJsonClickedHandler();" />
+            <input type="button" value="Save" onclick="javascript: saveClickedHandler();" />
         </div>
         <div class="main">@Html.DisplayForModel("Schedule")</div>
         <div class="main">

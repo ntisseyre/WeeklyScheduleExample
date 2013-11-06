@@ -15,5 +15,15 @@ namespace WeeklyScheduleExample.Controllers
 
             return View(week);
         }
+
+        [HttpPost]
+        public JsonResult Save(WeekModel weekModel)
+        {
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(weekModel.ToString());
+            xmlDocument.Save(Server.MapPath("~/") + "WeeklyScheduleUpdated.xml");
+
+            return Json("Ok");
+        }
     }
 }

@@ -46,16 +46,16 @@ function setTimeForPrefix(value)
 function setTime()
 {
 	this.hideTimePicker();
-	this.UpdateControlValue();
+	this.updateControlValue();
 }
 
 /// <summary>
-/// Обработать наведение курсора на уровень Prefix или Hour
+/// Handle a mouseOver event for level "Hour" or "Prefix"
 /// </summary>
-/// <param name="topLevel">Элемент списка из уровня Prefix или Hour</param>
-function HoverTopLevel(topLevel)
+/// <param name="topLevel">Html-element either "Prefix" or "Hour"</param>
+function hoverTopLevelHandler(topLevel)
 {
-	this.HoverElement(topLevel);
+	this.hoverElementHandler(topLevel);
 
 	//Down level
 	var downRow = topLevel.parent().next();
@@ -68,10 +68,10 @@ function HoverTopLevel(topLevel)
 }
 
 /// <summary>
-/// Обработать наведение курсора на любой элемент меню для выбора времени
+/// Handle a mouseOver event
 /// </summary>
-/// <param name="element">Элемент меню для выбора времени</param>
-function HoverElement(element)
+/// <param name="element">Element which triggered an event</param>
+function hoverElementHandler(element)
 {
 	isInsideTimePicker = true;
 
@@ -81,9 +81,9 @@ function HoverElement(element)
 }
 
 /// <summary>
-/// Установить, что меню сейчас не активно
+/// Set timePicker's menu to "not active"
 /// </summary>
-function LeaveTimePicker() { isInsideTimePicker = false; }
+function leaveTimePicker() { isInsideTimePicker = false; }
 
 /// <summary>
 /// Redraw TimePicker-control
@@ -169,7 +169,7 @@ function validateTimePicker()
 		{
 			if (!fullTimeRegEx.test(timeString))
 			{
-				this.ResetTimePickerValue();
+				this.resetTimePickerValue();
 				return;
 			}
 		}
@@ -179,23 +179,23 @@ function validateTimePicker()
 }
 
 /// <summary>
-/// Обновить значение контрола
+/// Update control's value
 /// </summary>
-function UpdateControlValue()
+function updateControlValue()
 {
 	var val = {
-		h: this.GetTimePickerValue('hour'),
-		m: this.GetTimePickerValue('minute')
+		h: this.getTimePickerValue('hour'),
+		m: this.getTimePickerValue('minute')
 	};
 
-	this.setTimePickerValue(this.FormatTimePickerValue(this.TimePickerFormat, val));
+	this.setTimePickerValue(this.formatTimePickerValue(this.TimePickerFormat, val));
 }
 
 /// <summary>
-/// Получить текущие выбранные значения в меню
+/// Get current selected values in a menu
 /// </summary>
-/// <param name="type">Тип элемента меню (часы, минуты)</param>
-function GetTimePickerValue(type)
+/// <param name="type">A type of a menu's element (hours, minutes)</param>
+function getTimePickerValue(type)
 {
 	// get the highlighted element; if none is highlighted, get the first one
 	var elem = $('.' + type + '.ui-state-highlight', this.timePicker)[0] || $('.' + type + ':first', this.timePicker)[0];
@@ -203,20 +203,20 @@ function GetTimePickerValue(type)
 }
 
 /// <summary>
-/// Сбросить значение контрола на предыдущее
+/// Reset control's value to a previous one
 /// </summary>
-function ResetTimePickerValue()
+function resetTimePickerValue()
 {
 	this.currentInputControl.val(this.currentInputControl.data('initialValue'));
 }
 
 /// <summary>
-/// Отформатировать значение контрола
+/// Format a value of a control
 /// </summary>
-/// <param name="s">Шаблон форматирования</param>
-/// <param name="o">Значение</param>
-function FormatTimePickerValue(s, o)
+/// <param name="template">Шаблон форматирования</param>
+/// <param name="values">Values</param>
+function formatTimePickerValue(template, values)
 { // simple parameterizing strings
-	for (key in o) s = s.replace('{' + key + '}', o[key]);
-	return s;
+    for (key in values) template = template.replace('{' + key + '}', values[key]);
+    return template;
 }
