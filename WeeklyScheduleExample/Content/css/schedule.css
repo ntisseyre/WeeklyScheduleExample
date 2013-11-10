@@ -57,20 +57,20 @@ div.schedule-content > div:last-child
 	max-height: 20px
 }
 
-/* -------------------- Working Type -------------------- */
-div.schedule-workingType {margin-left:3px;}
-div.schedule-workingType > div {display:inline-block;vertical-align:middle}
-div.schedule-workingType > div:last-of-type {white-space: nowrap;margin-left:0px}
-div.schedule-workingType > div.workingTypeImg
+/* -------------------- Working Time -------------------- */
+div.schedule-workingTime {margin-left:3px;}
+div.schedule-workingTime > div {display:inline-block;vertical-align:middle}
+div.schedule-workingTime > div:last-of-type {white-space: nowrap;margin-left:0px}
+div.schedule-workingTime > div.workingTimeImg
 {
 	cursor: pointer;
     padding-top:2px;
 	width: 22px;min-height: 22px;max-height: 22px;
     background-repeat:no-repeat;background-position: 2px 2px
 }
-div.schedule-workingType:first-of-type > div.workingTypeImg{background-image:url(../img/workingHours.png);margin-top:4px}
-div.schedule-workingType:nth-of-type(2) > div.workingTypeImg{background-image:url(../img/roundTheClock.png);margin-top:2px}
-div.schedule-workingType:last-of-type > div.workingTypeImg{background-image:url(../img/dayOff.png);margin-top:2px}
+div.schedule-workingTime:first-of-type > div.workingTimeImg{background-image:url(../img/workingHours.png);margin-top:4px}
+div.schedule-workingTime:nth-of-type(2) > div.workingTimeImg{background-image:url(../img/roundTheClock.png);margin-top:2px}
+div.schedule-workingTime:last-of-type > div.workingTimeImg{background-image:url(../img/dayOff.png);margin-top:2px}
 
 /* -------------------- Breaks -------------------- */
 div.breakRow {display:table;border:1px solid transparent}

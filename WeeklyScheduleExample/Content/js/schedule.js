@@ -10,7 +10,7 @@
 		function () { $(this).addClass('ui-state-hover'); },
 		function () { $(this).removeClass('ui-state-hover'); });
 
-    scheduleContentDivs.find('.workingTypeImg').hover(
+    scheduleContentDivs.find('.workingTimeImg').hover(
 		function () { $(this).addClass('ui-state-highlight'); },
 		function () { $(this).removeClass('ui-state-highlight'); });
 
@@ -43,19 +43,19 @@ function disableSchedule()
 		$(this).addClass('ignore-validation');
 	});
 
-	var workingTypeDivs = this.getActiveWorkingTypes();
-	for (var c = 0; c < workingTypeDivs.length; c++)
+	var workingTimeDivs = this.getActiveWorkingTimes();
+	for (var c = 0; c < workingTimeDivs.length; c++)
 	{
-		var workingTypeDiv = $(workingTypeDivs[c]);
-		workingTypeDiv.find('.workingTypeImg').each(function ()
+		var workingTimeDiv = $(workingTimeDivs[c]);
+		workingTimeDiv.find('.workingTimeImg').each(function ()
 		{
-			var workingType = $(this);
-			workingType.css('cursor', 'default');
-			workingType.unbind('mouseenter mouseleave');
-			workingType.removeAttr("onclick");
+			var workingTime = $(this);
+			workingTime.css('cursor', 'default');
+			workingTime.unbind('mouseenter mouseleave');
+			workingTime.removeAttr("onclick");
 		});
 
-		workingTypeDiv.find('input.time').each(function ()
+		workingTimeDiv.find('input.time').each(function ()
 		{
 			var workHours = $(this);
 			workHours.unbind("click");
@@ -76,29 +76,29 @@ function disableSchedule()
 //===================================================================== Change value functions =====================================================================//
 
 /// <summary>
-/// Change working type for a day of a week.
+/// Change working time for a day of a week.
 /// Triggered by a user.
 /// </summary>
-/// <param name="currentId">Current working type id</param>
-/// <param name="nextId">Working type id to switch to</param>
+/// <param name="currentId">Current working time id</param>
+/// <param name="nextId">Working time id to switch to</param>
 /// <param name="breaksContainerId">Id of an Html element which contains breaks list</param>
 /// <param name="enableBreaks">A flag to make breaks enabled. For "day-off" breaks are disabled, for example.</param>
-function changeWorkingTypeManually(currentId, nextId, breaksContainerId, enableBreaks)
+function changeWorkingTimeManually(currentId, nextId, breaksContainerId, enableBreaks)
 {
-	this.changeWorkingType(currentId, nextId, $('#' + breaksContainerId), enableBreaks);
+	this.changeWorkingTime(currentId, nextId, $('#' + breaksContainerId), enableBreaks);
 
 	if (this.isMonday(nextId))
-		this.copyWorkingTypeFromMonday(enableBreaks);
+		this.copyWorkingTimeFromMonday(enableBreaks);
 }
 
 /// <summary>
-/// Change working type for a day of a week.
+/// Change working time for a day of a week.
 /// </summary>
-/// <param name="currentId">Current working type id</param>
-/// <param name="nextId">Working type id to switch to</param>
+/// <param name="currentId">Current working time id</param>
+/// <param name="nextId">Working time id to switch to</param>
 /// <param name="breaksContainer">Id of an Html element which contains breaks list</param>
 /// <param name="enableBreaks">A flag to make breaks enabled. For "day-off" breaks are disabled, for example.</param>
-function changeWorkingType(currentId, nextId, breaksContainer, enableBreaks)
+function changeWorkingTime(currentId, nextId, breaksContainer, enableBreaks)
 {
 	$('#' + currentId).hide();
 	$('#' + nextId).show();
@@ -114,21 +114,21 @@ function changeWorkingType(currentId, nextId, breaksContainer, enableBreaks)
 }
 
 /// <summary>
-/// Copy working type from Monday to [Tuesday; Friday]
+/// Copy working time from Monday to [Tuesday; Friday]
 /// </summary>
 /// <param name="enableBreaks">A flag to make breaks enabled. For "day-off" breaks are disabled, for example.</param>
-function copyWorkingTypeFromMonday(enableBreaks)
+function copyWorkingTimeFromMonday(enableBreaks)
 {
-    var workingTypeDivs = this.getActiveWorkingTypes();
-	var mondayWorkingType = workingTypeDivs[0].id.split(ConstsForSchedule.IdSeparator)[1]; //Wokring type code for Monday
+    var workingTimeDivs = this.getActiveWorkingTimes();
+	var mondayWorkingTime = workingTimeDivs[0].id.split(ConstsForSchedule.IdSeparator)[1]; //Wokring type code for Monday
 
-	for (var c = 1; c < workingTypeDivs.length - 2; c++) //iterate from Tuesday to Friday
+	for (var c = 1; c < workingTimeDivs.length - 2; c++) //iterate from Tuesday to Friday
 	{
-		var dayInfo = workingTypeDivs[c].id.split(ConstsForSchedule.IdSeparator);
+		var dayInfo = workingTimeDivs[c].id.split(ConstsForSchedule.IdSeparator);
 		var dayOfWeek = dayInfo[0]; //Name of a day of a week
-		var nextId = dayOfWeek + ConstsForSchedule.IdSeparator + mondayWorkingType; //Working type to be set for a specified day of a week
+		var nextId = dayOfWeek + ConstsForSchedule.IdSeparator + mondayWorkingTime; //Working time to be set for a specified day of a week
 		var breaksContainer = this.getBreaksContainerForDayOfWeek(dayOfWeek);
-		this.changeWorkingType(workingTypeDivs[c].id, nextId, breaksContainer, enableBreaks);
+		this.changeWorkingTime(workingTimeDivs[c].id, nextId, breaksContainer, enableBreaks);
 	}
 }
 
@@ -175,10 +175,10 @@ function copyWorkHoursFromMonday(changedControl, divRow)
 		isOpenTimeChanged = false;
 	}
 
-	var workingTypeDivs = this.getActiveWorkingTypes();
-	for (var c = 1; c < workingTypeDivs.length - 2; c++)//iterate from Tuesday to Friday
+	var workingTimeDivs = this.getActiveWorkingTimes();
+	for (var c = 1; c < workingTimeDivs.length - 2; c++)//iterate from Tuesday to Friday
 	{
-		var workHours = $(workingTypeDivs[c]).find('input.time');
+		var workHours = $(workingTimeDivs[c]).find('input.time');
 		if (workHours.length != 0)
 		{
 			if (isOpenTimeChanged)
@@ -411,17 +411,17 @@ function getJsonSchedule()
 {
 	var result = {};
 
-	var workingTypeDivs = this.getActiveWorkingTypes();
-	for (var c = 0; c < workingTypeDivs.length; c++)
+	var workingTimeDivs = this.getActiveWorkingTimes();
+	for (var c = 0; c < workingTimeDivs.length; c++)
 	{
-		var dayInfo = workingTypeDivs[c].id.split(ConstsForSchedule.IdSeparator);
+		var dayInfo = workingTimeDivs[c].id.split(ConstsForSchedule.IdSeparator);
 		var dayOfWeek = dayInfo[0]; //Name of a day of a week
-		var workingType = dayInfo[1]; //Working type code
+		var workingTime = dayInfo[1]; //Working time code
 
 		result[dayOfWeek] =
 		{
-			WorkingType: workingType,
-			WorkHours: this.getJsonWorkHours($(workingTypeDivs[c])),
+			WorkingTime: workingTime,
+			WorkHours: this.getJsonWorkHours($(workingTimeDivs[c])),
 			Breaks: this.getJsonBreaks(dayOfWeek)
 		};
 	}
@@ -432,10 +432,10 @@ function getJsonSchedule()
 /// <summary>
 /// Get working hours JSON format
 /// </summary>
-/// <param name="workingTypeDiv">An Html-element that contains controls to edit time</param>
-function getJsonWorkHours(workingTypeDiv)
+/// <param name="workingTimeDiv">An Html-element that contains controls to edit time</param>
+function getJsonWorkHours(workingTimeDiv)
 {
-	var workHours = workingTypeDiv.find('input.time');
+	var workHours = workingTimeDiv.find('input.time');
 	if (workHours.length == 0)
 		return {};
 
@@ -467,22 +467,22 @@ function getJsonBreaks(dayOfWeek)
 //===================================================================== Validation functions =====================================================================//
 
 /// <summary>
-/// Validate schedule data: working types, working hours, breaks
+/// Validate schedule data: working times, working hours, breaks
 /// </summary>
 ///<returns>True - everything is Ok, otherwise False</returns>
 function validateSchedule()
 {
-	var workingTypeDivs = this.getActiveWorkingTypes();
-	for (var c = 0; c < workingTypeDivs.length; c++)
+	var workingTimeDivs = this.getActiveWorkingTimes();
+	for (var c = 0; c < workingTimeDivs.length; c++)
 	{
-		var workHours = $(workingTypeDivs[c]).find('input.time');
+		var workHours = $(workingTimeDivs[c]).find('input.time');
 		if (workHours.length != 0)
 		{
 			if (!this.validateTimeInterval($(workHours[0]), $(workHours[1])))
 				return false;
 		}
 
-		var dayOfWeek = workingTypeDivs[c].id.split(ConstsForSchedule.IdSeparator)[0]; //Name of a day of a week
+		var dayOfWeek = workingTimeDivs[c].id.split(ConstsForSchedule.IdSeparator)[0]; //Name of a day of a week
 		if (!this.validateBreaks(this.getBreaksForDayOfWeek(dayOfWeek)))
 			return false;
 	}
@@ -566,12 +566,12 @@ function showWarning(message, callBack)
 //===================================================================== DOM Navigation functions =====================================================================//
 
 /// <summary>
-/// Get active(visible to a user) working types for a whole week
+/// Get active(visible to a user) working times for a whole week
 /// </summary>
-///<returns>A list of set working types for each day of a week</returns>
-function getActiveWorkingTypes()
+///<returns>A list of set working times for each day of a week</returns>
+function getActiveWorkingTimes()
 {
-    return $('.schedule-workingType:visible');
+    return $('.schedule-workingTime:visible');
 }
 
 /// <summary>

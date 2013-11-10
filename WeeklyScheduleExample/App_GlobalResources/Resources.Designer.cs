@@ -160,7 +160,7 @@ namespace WeeklyScheduleExample.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Break can&apos;t be added for the working type {0}.
+        ///   Looks up a localized string similar to Break can&apos;t be added for the working time {0}.
         /// </summary>
         public static string E_BreakCanNotBeAddedForTypeWithParam {
             get {
@@ -196,11 +196,11 @@ namespace WeeklyScheduleExample.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Undefined working type.
+        ///   Looks up a localized string similar to Undefined working time.
         /// </summary>
-        public static string E_UndefinedWorkingType {
+        public static string E_UndefinedWorkingTime {
             get {
-                return ResourceManager.GetString("E_UndefinedWorkingType", resourceCulture);
+                return ResourceManager.GetString("E_UndefinedWorkingTime", resourceCulture);
             }
         }
         
@@ -214,11 +214,11 @@ namespace WeeklyScheduleExample.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Working type is already set to {0}. It can&apos;t be redefined to {1}.
+        ///   Looks up a localized string similar to Working time is already set to {0}. It can&apos;t be redefined to {1}.
         /// </summary>
-        public static string E_WorkingTypeMustBeNoneWithParams2 {
+        public static string E_WorkingTimeMustBeNoneWithParams2 {
             get {
-                return ResourceManager.GetString("E_WorkingTypeMustBeNoneWithParams2", resourceCulture);
+                return ResourceManager.GetString("E_WorkingTimeMustBeNoneWithParams2", resourceCulture);
             }
         }
         

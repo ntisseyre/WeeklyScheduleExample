@@ -50,13 +50,13 @@ namespace WeeklyScheduleExample.Models
 			{
                 WeekModel week = new WeekModel();
 
-				week.Monday.WorkingType = WorkingType.RoundTheClock;
-				week.Tuesday.WorkingType = WorkingType.RoundTheClock;
-				week.Wednesday.WorkingType = WorkingType.RoundTheClock;
-				week.Thursday.WorkingType = WorkingType.RoundTheClock;
-				week.Friday.WorkingType = WorkingType.RoundTheClock;
-				week.Saturday.WorkingType = WorkingType.RoundTheClock;
-				week.Sunday.WorkingType = WorkingType.RoundTheClock;
+				week.Monday.WorkingTime = WorkingTime.RoundTheClock;
+				week.Tuesday.WorkingTime = WorkingTime.RoundTheClock;
+				week.Wednesday.WorkingTime = WorkingTime.RoundTheClock;
+				week.Thursday.WorkingTime = WorkingTime.RoundTheClock;
+				week.Friday.WorkingTime = WorkingTime.RoundTheClock;
+				week.Saturday.WorkingTime = WorkingTime.RoundTheClock;
+				week.Sunday.WorkingTime = WorkingTime.RoundTheClock;
 
 				/*
 				week.Monday.WorkHours = new WorkHours();

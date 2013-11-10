@@ -8,7 +8,7 @@ namespace WeeklyScheduleExample.Models
     /// <summary>
     /// Type of the schedule for a specific day of a week
     /// </summary>
-    public enum WorkingType
+    public enum WorkingTime
     {
         /// <summary>
         /// Undefined

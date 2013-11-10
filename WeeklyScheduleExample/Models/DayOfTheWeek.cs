@@ -13,7 +13,7 @@ namespace WeeklyScheduleExample.Models
 	{
 		#region Private Variables
 
-		private WorkingType workingType;
+		private WorkingTime workingTime;
 
 		private WorkHours workHours;
 
@@ -39,23 +39,23 @@ namespace WeeklyScheduleExample.Models
 
 		public DayOfWeek DayOfWeek { get; internal set; }
 
-		public WorkingType WorkingType
+		public WorkingTime WorkingTime
 		{
-			get { return this.workingType; }
+			get { return this.workingTime; }
 			set
 			{
-				if (this.workingType != value)
+				if (this.workingTime != value)
 				{
-					this.workingType = value;
+					this.workingTime = value;
 
 					switch (value)
 					{
-						case WorkingType.Closed:
+						case WorkingTime.Closed:
 							this.workHours = null;
 							this.breaks = null;
 							break;
 
-						case WorkingType.RoundTheClock:
+						case WorkingTime.RoundTheClock:
 							this.workHours = null;
 							break;
 					}
@@ -72,7 +72,7 @@ namespace WeeklyScheduleExample.Models
 					throw new ArgumentNullException("value");
 
 				this.workHours = value;
-				this.workingType = WorkingType.WorkHours;
+				this.workingTime = WorkingTime.WorkHours;
 			}
 		}
 
@@ -93,8 +93,8 @@ namespace WeeklyScheduleExample.Models
 			if (this.breaks == null)
 				this.breaks = new List<BreakHours>();
 
-			if (this.WorkingType != WorkingType.WorkHours && this.WorkingType != WorkingType.RoundTheClock)
-                throw new InvalidOperationException(string.Format(WeekModel.cultureInfo, Resources.E_BreakCanNotBeAddedForTypeWithParam, this.WorkingType.ToString()));
+			if (this.WorkingTime != WorkingTime.WorkHours && this.WorkingTime != WorkingTime.RoundTheClock)
+                throw new InvalidOperationException(string.Format(WeekModel.cultureInfo, Resources.E_BreakCanNotBeAddedForTypeWithParam, this.WorkingTime.ToString()));
 
 			this.breaks.Add(breakHours);
 		}
@@ -145,22 +145,22 @@ namespace WeeklyScheduleExample.Models
 				switch (reader.Name)
 				{
 					case "closed":
-						if (this.WorkingType != WorkingType.None)
-                            throw new InvalidOperationException(string.Format(WeekModel.cultureInfo, Resources.E_WorkingTypeMustBeNoneWithParams2, this.WorkingType.ToString(), startNodeName));
+						if (this.WorkingTime != WorkingTime.None)
+                            throw new InvalidOperationException(string.Format(WeekModel.cultureInfo, Resources.E_WorkingTimeMustBeNoneWithParams2, this.WorkingTime.ToString(), startNodeName));
 
-						this.WorkingType = WorkingType.Closed;
+						this.WorkingTime = WorkingTime.Closed;
 						break;
 
 					case "round_the_clock":
-						if (this.WorkingType != WorkingType.None)
-                            throw new InvalidOperationException(string.Format(WeekModel.cultureInfo, Resources.E_WorkingTypeMustBeNoneWithParams2, this.WorkingType.ToString(), startNodeName));
+						if (this.WorkingTime != WorkingTime.None)
+                            throw new InvalidOperationException(string.Format(WeekModel.cultureInfo, Resources.E_WorkingTimeMustBeNoneWithParams2, this.WorkingTime.ToString(), startNodeName));
 
-						this.WorkingType = WorkingType.RoundTheClock;
+						this.WorkingTime = WorkingTime.RoundTheClock;
 						break;
 
 					case "work_hours":
-						if (this.WorkingType != WorkingType.None)
-                            throw new InvalidOperationException(string.Format(WeekModel.cultureInfo, Resources.E_WorkingTypeMustBeNoneWithParams2, this.WorkingType.ToString(), startNodeName));
+						if (this.WorkingTime != WorkingTime.None)
+                            throw new InvalidOperationException(string.Format(WeekModel.cultureInfo, Resources.E_WorkingTimeMustBeNoneWithParams2, this.WorkingTime.ToString(), startNodeName));
 
 						this.WorkHours = new WorkHours();
 						this.WorkHours.ReadXml(reader);
@@ -184,24 +184,24 @@ namespace WeeklyScheduleExample.Models
 		/// <param name="writer">The System.Xml.XmlWriter stream to which the object is serialized</param>
 		public void WriteXml(System.Xml.XmlWriter writer)
 		{
-			switch (this.WorkingType)
+			switch (this.WorkingTime)
 			{
-				case WorkingType.Closed:
+				case WorkingTime.Closed:
 					writer.WriteElementString("closed", null);
 					return;
 
-				case WorkingType.WorkHours:
+				case WorkingTime.WorkHours:
 					writer.WriteStartElement("work_hours");
 					this.WorkHours.WriteXml(writer);
 					writer.WriteEndElement();
 					break;
 
-				case WorkingType.RoundTheClock:
+				case WorkingTime.RoundTheClock:
 					writer.WriteElementString("round_the_clock", null);
 					break;
 
-				case WorkingType.None:
-					throw new InvalidOperationException(Resources.E_UndefinedWorkingType);
+				case WorkingTime.None:
+					throw new InvalidOperationException(Resources.E_UndefinedWorkingTime);
 			}
 
 			if (this.Breaks == null)
@@ -251,7 +251,7 @@ namespace WeeklyScheduleExample.Models
 			else
 				breaksAreEqual = obj1.breaks == null && obj2.breaks == null;
 
-			return obj1.workingType == obj2.workingType
+			return obj1.workingTime == obj2.workingTime
 				&& obj1.workHours == obj2.workHours
 				&& obj1.DayOfWeek == obj2.DayOfWeek
 				&& breaksAreEqual;
@@ -269,7 +269,7 @@ namespace WeeklyScheduleExample.Models
 
 		public override int GetHashCode()
 		{
-			int result = this.workingType.GetHashCode()
+			int result = this.workingTime.GetHashCode()
 				^ this.DayOfWeek.GetHashCode();
 
 			if (this.workHours != null)

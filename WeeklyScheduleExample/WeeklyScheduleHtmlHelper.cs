@@ -43,7 +43,7 @@ namespace WeeklyScheduleExample
         /// <returns>Id of an Html-element</returns>
 		public static IHtmlString GetWorkHoursId(this HtmlHelper<DayOfTheWeek> html)
 		{
-            return WeeklyScheduleHtmlHelper.GetWorkingTypeId(html, WorkingType.WorkHours);
+            return WeeklyScheduleHtmlHelper.GetWorkingTimeId(html, WorkingTime.WorkHours);
 		}
 
 		/// <summary>
@@ -53,7 +53,7 @@ namespace WeeklyScheduleExample
         /// <returns>Id of an Html-element</returns>
 		public static IHtmlString GetRoundTheClockId(this HtmlHelper<DayOfTheWeek> html)
 		{
-            return WeeklyScheduleHtmlHelper.GetWorkingTypeId(html, WorkingType.RoundTheClock);
+            return WeeklyScheduleHtmlHelper.GetWorkingTimeId(html, WorkingTime.RoundTheClock);
 		}
 
 		/// <summary>
@@ -63,18 +63,18 @@ namespace WeeklyScheduleExample
         /// <returns>Id of an Html-element</returns>
 		public static IHtmlString GetClosedId(this HtmlHelper<DayOfTheWeek> html)
 		{
-            return WeeklyScheduleHtmlHelper.GetWorkingTypeId(html, WorkingType.Closed);
+            return WeeklyScheduleHtmlHelper.GetWorkingTimeId(html, WorkingTime.Closed);
 		}
 
 		/// <summary>
-        /// Get an id of an Html-element to show a working type for the specified day of a week
+        /// Get an id of an Html-element to show a working time for the specified day of a week
 		/// </summary>
 		/// <param name="html">Represents support for rendering HTML controls in a strongly typed view</param>
-        /// <param name="workingType">Working type</param>
+        /// <param name="workingTime">Working time</param>
         /// <returns>Id of an Html-element</returns>
-        private static IHtmlString GetWorkingTypeId(HtmlHelper<DayOfTheWeek> html, WorkingType workingType)
+        private static IHtmlString GetWorkingTimeId(HtmlHelper<DayOfTheWeek> html, WorkingTime workingTime)
 		{
-            return html.Raw(html.ViewData.Model.DayOfWeek.ToString() + WeeklyScheduleHtmlHelper.IdSeparator + workingType.ToString());
+            return html.Raw(html.ViewData.Model.DayOfWeek.ToString() + WeeklyScheduleHtmlHelper.IdSeparator + workingTime.ToString());
 		}
 
 		/// <summary>
@@ -89,47 +89,47 @@ namespace WeeklyScheduleExample
 
 		#endregion
 
-		#region IsWorkingTypeVisible
+		#region IsWorkingTimeVisible
 
 		/// <summary>
-		/// Based on a working type for a day detect if "working hours" type is visible
+		/// Based on a working time for a day detect if "working hours" type is visible
 		/// </summary>
 		/// <param name="html">Represents support for rendering HTML controls in a strongly typed view</param>
         /// <returns>"display:none" or "display:block"</returns>
 		public static string IsWorkHoursVisible(this HtmlHelper<DayOfTheWeek> html)
 		{
-            return WeeklyScheduleHtmlHelper.IsWorkingTypeVisible(html.ViewData.Model.WorkingType, WorkingType.WorkHours);
+            return WeeklyScheduleHtmlHelper.IsWorkingTimeVisible(html.ViewData.Model.WorkingTime, WorkingTime.WorkHours);
 		}
 
 		/// <summary>
-        /// Based on a working type for a day detect if "round the clock" type is visible
+        /// Based on a working time for a day detect if "round the clock" type is visible
 		/// </summary>
 		/// <param name="html">Represents support for rendering HTML controls in a strongly typed view</param>
         /// <returns>"display:none" or "display:block"</returns>
 		public static string IsRoundTheClockVisible(this HtmlHelper<DayOfTheWeek> html)
 		{
-            return WeeklyScheduleHtmlHelper.IsWorkingTypeVisible(html.ViewData.Model.WorkingType, WorkingType.RoundTheClock);
+            return WeeklyScheduleHtmlHelper.IsWorkingTimeVisible(html.ViewData.Model.WorkingTime, WorkingTime.RoundTheClock);
 		}
 
 		/// <summary>
-        /// Based on a working type for a day detect if "day off" type is visible
+        /// Based on a working time for a day detect if "day off" type is visible
 		/// </summary>
 		/// <param name="html">Represents support for rendering HTML controls in a strongly typed view</param>
         /// <returns>"display:none" or "display:block"</returns>
 		public static string IsClosedVisible(this HtmlHelper<DayOfTheWeek> html)
 		{
-            return WeeklyScheduleHtmlHelper.IsWorkingTypeVisible(html.ViewData.Model.WorkingType, WorkingType.Closed);
+            return WeeklyScheduleHtmlHelper.IsWorkingTimeVisible(html.ViewData.Model.WorkingTime, WorkingTime.Closed);
 		}
 
 		/// <summary>
-        /// Detect if show or hide a given working type based on a model's state
+        /// Detect if show or hide a given working time based on a model's state
 		/// </summary>
-		/// <param name="modelWorkingType">Model's working type</param>
-		/// <param name="currentWorkingType">Working type</param>
+		/// <param name="modelWorkingTime">Model's working time</param>
+		/// <param name="currentWorkingTime">Working time</param>
         /// <returns>"display:none" or "display:block"</returns>
-		private static string IsWorkingTypeVisible(WorkingType modelWorkingType, WorkingType currentWorkingType)
+		private static string IsWorkingTimeVisible(WorkingTime modelWorkingTime, WorkingTime currentWorkingTime)
 		{
-            return modelWorkingType == currentWorkingType ? WeeklyScheduleHtmlHelper.Visible : WeeklyScheduleHtmlHelper.Hidden;
+            return modelWorkingTime == currentWorkingTime ? WeeklyScheduleHtmlHelper.Visible : WeeklyScheduleHtmlHelper.Hidden;
 		}
 
 		#endregion
@@ -176,7 +176,7 @@ namespace WeeklyScheduleExample
         /// <returns>"display:none" or "display:block"</returns>
 		public static string IsBreakContainerVisible(this HtmlHelper<DayOfTheWeek> html)
 		{
-            return html.ViewData.Model.WorkingType == WorkingType.Closed ? WeeklyScheduleHtmlHelper.Hidden : WeeklyScheduleHtmlHelper.Visible;
+            return html.ViewData.Model.WorkingTime == WorkingTime.Closed ? WeeklyScheduleHtmlHelper.Hidden : WeeklyScheduleHtmlHelper.Visible;
 		}
 
 		/// <summary>
@@ -189,7 +189,7 @@ namespace WeeklyScheduleExample
 			TimeSpan open;
 			TimeSpan close;
 
-			if (html.ViewData.Model.WorkingType == WorkingType.WorkHours)
+			if (html.ViewData.Model.WorkingTime == WorkingTime.WorkHours)
 			{
 				open = html.ViewData.Model.WorkHours.Open;
 				close = html.ViewData.Model.WorkHours.Close;

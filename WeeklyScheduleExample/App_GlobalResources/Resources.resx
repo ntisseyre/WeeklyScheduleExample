@@ -151,7 +151,7 @@
     <value>Day of a week</value>
   </data>
   <data name="E_BreakCanNotBeAddedForTypeWithParam" xml:space="preserve">
-    <value>Break can't be added for the working type {0}</value>
+    <value>Break can't be added for the working time {0}</value>
   </data>
   <data name="E_ElementCanNotBeEmptyWithParam" xml:space="preserve">
     <value>Element {0} can't be empty</value>
@@ -162,14 +162,14 @@
   <data name="E_IntervalIsNotValid" xml:space="preserve">
     <value>Please enter a valid interval</value>
   </data>
-  <data name="E_UndefinedWorkingType" xml:space="preserve">
-    <value>Undefined working type</value>
+  <data name="E_UndefinedWorkingTime" xml:space="preserve">
+    <value>Undefined working time</value>
   </data>
   <data name="E_UnexpectedXmlElementWithParam" xml:space="preserve">
     <value>Unexpected xml element {0}</value>
   </data>
-  <data name="E_WorkingTypeMustBeNoneWithParams2" xml:space="preserve">
-    <value>Working type is already set to {0}. It can't be redefined to {1}</value>
+  <data name="E_WorkingTimeMustBeNoneWithParams2" xml:space="preserve">
+    <value>Working time is already set to {0}. It can't be redefined to {1}</value>
   </data>
   <data name="Friday" xml:space="preserve">
     <value>Friday</value>
