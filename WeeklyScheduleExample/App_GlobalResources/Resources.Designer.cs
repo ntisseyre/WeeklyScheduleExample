@@ -151,7 +151,7 @@ namespace WeeklyScheduleExample.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Day of a week.
+        ///   Looks up a localized string similar to Day of the week.
         /// </summary>
         public static string DayOfWeekTitle {
             get {

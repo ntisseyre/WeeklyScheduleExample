@@ -148,7 +148,7 @@
     <value>Day off</value>
   </data>
   <data name="DayOfWeekTitle" xml:space="preserve">
-    <value>Day of a week</value>
+    <value>Day of the week</value>
   </data>
   <data name="E_BreakCanNotBeAddedForTypeWithParam" xml:space="preserve">
     <value>Break can't be added for the working time {0}</value>
