@@ -17,7 +17,7 @@ div#scheduleTable > div > div
     display:table-cell;
     vertical-align:middle
 }
-div#scheduleTable > div > div:first-child { width:120px }
+div#scheduleTable > div > div:first-child { width:130px }
 div#scheduleTable > div > div:nth-child(2)
 {
     width:210px;
