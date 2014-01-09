@@ -17,8 +17,8 @@ div#scheduleTable > div > div
     display:table-cell;
     vertical-align:middle
 }
-div#scheduleTable > div > div:first-of-type { width:130px }
-div#scheduleTable > div > div:nth-of-type(2)
+div#scheduleTable > div > div:first-child { width:130px }
+div#scheduleTable > div > div:nth-child(2)
 {
     width:210px;
     border-left: 1px solid;
@@ -26,7 +26,7 @@ div#scheduleTable > div > div:nth-of-type(2)
     border-right: 1px solid;
 	border-right-color: inherit
 }
-div#scheduleTable > div > div:last-of-type{ width:210px;}
+div#scheduleTable > div > div:last-child{ width:210px;}
 
 /* -------------------- Schedule Table Header -------------------- */
 div.schedule-header {height:22px}
@@ -36,19 +36,19 @@ div.schedule-header > div {text-align:center}
 div.schedule-content {height:30px}
 
 /* box-sizing doesn't work in FireFox for table-cell*/
-@-moz-document url-prefix(){ div.schedule-content > div:first-of-type{width:110px!important;}}
-div.schedule-content > div:first-of-type
+@-moz-document url-prefix(){ div.schedule-content > div:first-child{width:110px!important;}}
+div.schedule-content > div:first-child
 {
     padding-left: 10px;
 	font-weight: bold;
 	color: #696969
 }
-div.schedule-content > div:nth-of-type(2)
+div.schedule-content > div:nth-child(2)
 {   
     color: Black;
     font-weight: normal
 }
-div.schedule-content > div:last-of-type
+div.schedule-content > div:last-child
 {
     margin-left: 5px;
 	margin-right: 5px;
