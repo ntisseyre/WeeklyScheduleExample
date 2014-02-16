@@ -96,13 +96,9 @@ namespace WeeklyScheduleExample.Models
 
 		public override string ToString()
 		{
-            XmlSerializer serializer = new XmlSerializer(typeof(WeekModel));
-
             using (TextWriter writer = new StringWriter(WeekModel.cultureInfo))
 			{
-
 				serializer.Serialize(writer, this);
-
 				return writer.ToString();
 			}
 		}
